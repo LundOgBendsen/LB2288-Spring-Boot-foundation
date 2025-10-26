@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- Reference to the Springboot configuration   -->
+    <property resource="application.properties"/>
+    <!-- Pull out the application name from the Springboot configuration -->
+    <contextName>${spring.application.name}</contextName>
+    <springProfile name="!default">
+        <appender name="Console"  class="ch.qos.logback.core.ConsoleAppender">
+            <!-- Use a Json encoder-->
+            <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+                <providers>
+                    <contextName>
+                        <fieldName>app</fieldName>
+                    </contextName>
+                    <timestamp>
+                        <fieldName>ts</fieldName>
+                        <timeZone>UTC</timeZone>
+                    </timestamp>
+                    <loggerName>
+                        <fieldName>logger</fieldName>
+                    </loggerName>
+                    <logLevel>
+                        <fieldName>level</fieldName>
+                    </logLevel>
+                    <callerData>
+                        <classFieldName>class</classFieldName>
+                        <methodFieldName>method</methodFieldName>
+                        <lineFieldName>line</lineFieldName>
+                        <fileFieldName>file</fileFieldName>
+                    </callerData>
+                    <threadName>
+                        <fieldName>thread</fieldName>
+                    </threadName>
+                    <mdc/>
+                    <arguments>
+                        <includeNonStructuredArguments>false</includeNonStructuredArguments>
+                    </arguments>
+                    <stackTrace>
+                        <fieldName>stack</fieldName>
+                    </stackTrace>
+                    <message>
+                        <fieldName>msg</fieldName>
+                    </message>
+                </providers>
+            </encoder>
+        </appender>
+        <!-- LOG everything at INFO level -->
+        <root level="info">
+            <appender-ref ref="Console"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="default">
+        <!-- configuration to be enabled when the "production" profile is not active -->
+        <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <Pattern>
+                    %black(%d{ISO8601}) %highlight(%-5level) [%blue(%t)] %yellow(%C{1.}): %msg%n%throwable
+                </Pattern>
+            </layout>
+        </appender>
+        <logger name="dk" level="info" additivity="false">
+            <appender-ref ref="Console"/>
+        </logger>
+    </springProfile>
+
+</configuration>
