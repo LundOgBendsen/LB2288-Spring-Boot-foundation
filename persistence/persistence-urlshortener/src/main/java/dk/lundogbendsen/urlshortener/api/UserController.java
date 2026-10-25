@@ -1,6 +1,6 @@
 package dk.lundogbendsen.urlshortener.api;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import tools.jackson.databind.JsonNode;
 import dk.lundogbendsen.urlshortener.model.User;
 import dk.lundogbendsen.urlshortener.security.SecurityContext;
 import dk.lundogbendsen.urlshortener.service.UserService;

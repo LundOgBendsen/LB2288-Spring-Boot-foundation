@@ -2,9 +2,9 @@ package org.example.personservicestarter;
 
 //import org.example.personservice.service.PersonService;
 
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 
-@Configuration
+@AutoConfiguration
 //@ConditionalOnClass(PersonService.class)
 public class PersonServiceConfiguration {
 

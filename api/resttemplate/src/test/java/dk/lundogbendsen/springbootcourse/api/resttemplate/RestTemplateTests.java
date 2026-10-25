@@ -1,6 +1,6 @@
 package dk.lundogbendsen.springbootcourse.api.resttemplate;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import tools.jackson.databind.JsonNode;
 import dk.lundogbendsen.springbootcourse.api.resttemplate.api.Person;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -121,7 +121,7 @@ class RestTemplateTests {
         // Must add an XML handler to pom.xml:
 /*
 		<dependency>
-			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<groupId>tools.jackson.dataformat</groupId>
 			<artifactId>jackson-dataformat-xml</artifactId>
 		</dependency>
 */
