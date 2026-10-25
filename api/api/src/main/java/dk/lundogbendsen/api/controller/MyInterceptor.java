@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.UUID;
 
 @Slf4j
-public class MyIntercepter implements HandlerInterceptor
+public class MyInterceptor implements HandlerInterceptor
 {
 
 	@Override

@@ -10,7 +10,7 @@ public class WebConfig implements WebMvcConfigurer
 	@Override
 	public void addInterceptors(InterceptorRegistry registry)
 	{
-		registry.addInterceptor(new MyIntercepter()).addPathPatterns("/*");
+		registry.addInterceptor(new MyInterceptor()).addPathPatterns("/*");
 	}
 
 
