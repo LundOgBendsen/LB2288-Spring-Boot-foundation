@@ -4,7 +4,7 @@
 
 In these exercises you build a Spring Boot starter for the person-service library.
 
-The library already lives in this course repository: [person-service-lib](../../person-service-lib). You will:
+The library is already created for you. You will:
 
 1. Install `person-service-lib` into your local Maven repository.
 2. Create a **new empty Java Maven project** that becomes the starter.
@@ -134,11 +134,11 @@ Pick **one** of these two options.
 **Option 1 — from course repository root**
 
 ```text
-cd 101/person-service-starter
+cd PATH_TO_YOUR_PROJECT
 mvn install
 ```
 
-**Option 2 — if you are already in project**
+**Option 2 — if you are already in your project**
 
 ```text
 mvn install

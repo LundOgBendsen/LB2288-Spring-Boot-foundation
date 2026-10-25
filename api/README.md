@@ -1,10 +1,15 @@
 # API
 
+Solutions are available in [SOLUTIONS.md](SOLUTIONS.md).
+
+**NB:** All curl commands must be executed in a CMD (not Windows PowerShell). Feel free to use any other GUI tool if you
+want to.
+
 ## Exercises - Section 1: Controlling input and output
 
 ### Exercise 1: Create a RestController
 
-- Create a Springboot Web project
+- Create a Springboot Web MVC project
 - Create a class MyRestController
 - Annotate the class with @RestController. This instructs Spring to register the class as a request handler.
 - Create a method `public String helloWorld()` returning a String with content "HelloWorld".
@@ -12,18 +17,6 @@
   and without data.
 - Run the application.
 - Go to http://localhost:8080
-
-#### Solution
-
-```java
-@RestController
-public class MyRestController {
-    @GetMapping("/")
-    public String helloWorld() {
-        return "Hello World";
-    }
-}
-```
 
 ### Exercise 2: Input to controller
 
@@ -36,18 +29,6 @@ You can map a method parameter to either a query parameter or a form field using
 - Restart the application.
 - Go to http://localhost:8080?message=alive!
 
-#### Solution
-
-```java
-@RestController
-public class MyRestController {
-    @GetMapping("/")
-    public String helloWorld(@RequestParam String message) {
-        return "Hello World: " + message;
-    }
-}
-```
-
 ### Exercise 3: Input to controller by path
 
 You can map a method parameter to some part of the request path using the @PathVariable annotation.
@@ -58,15 +39,6 @@ You can map a method parameter to some part of the request path using the @PathV
 - Annotate the id parameter with `@PathVariable`.
 - Restart the application.
 - Go to http://localhost:8080/666
-
-#### Solution
-
-```java
-@GetMapping("/{id}")
-public Long pathMapping(@PathVariable Long id) {
-    return id;
-}
-```
 
 ### Exercise 4: Map input to POJO
 
@@ -80,15 +52,6 @@ Model representing the Json and Springboot will make a Pojo with the input.
 - Restart the app.
 - Run `curl -H "content-type: application/json" localhost:8080 -d '{"firstName":"Christian","lastName":"Jensen"}'`.
 
-#### Solution
-
-```java
-@PostMapping("/")
-public void receivePerson(@RequestBody Person person) {
-    System.out.println("person = " + person);
-}
-```
-
 ### Exercise 5: Upload file
 
 A file upload is really just a http request where the content part should be interpretated as a file. But we have to
@@ -101,17 +64,6 @@ receive it as a MultipartFile object. Let's try to receive an upload:
 - Restart the application
 - Run `curl localhost:8080/upload-file -F "file=@pom.xml"` (or some other local text-file)
 
-#### Solution
-
-```java
-@PostMapping("/upload-file")
-public String receiveFile(@RequestParam("file") MultipartFile file) throws IOException {
-    final String content = new String(file.getBytes());
-    System.out.println("content = " + content);
-    return file.getOriginalFilename();
-}
-```
-
 ### Exercise 6: Get Header
 
 You can map any header to your method by using the @RequestHeader annotation.
@@ -120,18 +72,6 @@ You can map any header to your method by using the @RequestHeader annotation.
 - Print out the content type to the console.
 - Restart the application.
 - Run `curl localhost:8080/upload-file -F "file=@pom.xml"` (or some other local text-file)
-
-#### Solution
-
-```java
-@PostMapping("/upload-file")
-public String receiveFile(@RequestParam("file") MultipartFile file, @RequestHeader(name = "Content-Type") String contentType) throws IOException {
-    final String content = new String(file.getBytes());
-    System.out.println("content = " + content);
-    System.out.println("contentType = " + contentType);
-    return file.getOriginalFilename();
-}
-```
 
 ### Exercise 7: Pojo output
 
@@ -143,18 +83,6 @@ But it is just as easy to send a complex object like a pojo.
 - Annotate the method with `@GetMapping("person")`
 - Restart the application.
 - Run `curl localhost:8080/person`.
-
-#### Solution:
-
-```java
-@GetMapping("person")
-public Person getPerson() {
-    Person p = new Person();
-    p.setFirstName("Christian");
-    p.setLastName("Jensen");
-    return p;
-}
-```
 
 ### Exercise 8: Complete control using ResponseEntity
 
@@ -175,21 +103,6 @@ The ResponseEntity represents both http status code, headers and content in one 
 - Restart the application.
 - Run `curl localhost:8080/person-special -i` and inspect the result.
 
-#### Solution
-
-```java
-@GetMapping("person-special")
-public ResponseEntity<Person> getPersonSpecial() {
-    final Person person = new Person();
-    person.setFirstName("Christian");
-    person.setLastName("Jensen");
-    HttpHeaders headers = new HttpHeaders();
-    headers.add("TraceId", "abc123");
-    final ResponseEntity<Person> ok = new ResponseEntity<>(person, headers, HttpStatus.OK);
-    return ok;
-}
-```
-
 ### Exercise 9: Download a File
 
 You can use the ResponseEntity to serve files to the client.
@@ -207,22 +120,6 @@ You can use the ResponseEntity to serve files to the client.
 - Restart the application.
 - Go to localhost:8080/download in a browser
 
-#### Solution
-
-```java
-  @GetMapping("/download")
-  public ResponseEntity<Resource> download() throws IOException {
-      File file = new File("api/http-status-codes.png");
-      InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
-
-      return ResponseEntity.ok()
-              .contentLength(file.length())
-              .contentType(MediaType.APPLICATION_OCTET_STREAM)
-              .header("Content-Disposition", "attachment; filename=http-status-codes.png")
-              .body(resource);
-  }
-```
-
 ### Exercise 10: Client wants XML
 
 In http there is a concept of Content Negotiation. The client sends a header "Accept" which declares which formats it
@@ -232,9 +129,10 @@ The DispatcherServlet will then try to convert the result of the controller to t
 - In order to serve XML, a new dependency must be added to the pom.xml:
 
 ```xml
+
 <dependency>
-  <groupId>com.fasterxml.jackson.dataformat</groupId>
-  <artifactId>jackson-dataformat-xml</artifactId>
+    <groupId>com.fasterxml.jackson.dataformat</groupId>
+    <artifactId>jackson-dataformat-xml</artifactId>
 </dependency>
 ```
 
@@ -278,22 +176,6 @@ controller that uses a PersonService to create, update and delete persons.
 But right now all the code inside is commented out. You must uncomment the code to have a fully functioning
 PersonController to work with in the following exercises.
 
-#### Solution
-
-```xml
-        <dependency>
-            <groupId>org.example</groupId>
-            <artifactId>person-service</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.example</groupId>
-            <artifactId>person-service-starter</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-
-```
-
 ### Exercise 1: ExceptionHandlers in Controllers
 
 The PersonService throws a PersonCreateException in the create method if the Person object already contains an id.
@@ -309,20 +191,6 @@ error. We want to show a nice error message with status code 400 and a descripti
 - Restart the application.
 - In Postman create a person where you add an ID to the body of the request.
 
-#### Solution
-
-```java
-@ExceptionHandler
-@ResponseStatus(HttpStatus.BAD_REQUEST)
-public String personCreateExceptionHandler(PersonCreateException e) {
-    return e.getMessage();
-}
-```
-
-```text
-curl 'localhost:8080' -d '{"name": "Jonathan","age": 16,"id": 1}' -H "Content-Type: application/json"
-```
-
 ### Exercise 2: ExceptionHandlers in ControllerAdvices
 
 In this exercise we will make a class for handling exceptions.
@@ -336,19 +204,6 @@ In this exercise we will make a class for handling exceptions.
 - Restart the application.
 - In Postman create a person where you add an ID to the body of the request.
 
-#### Solution
-
-```java
-@RestControllerAdvice
-public class PersonApiControllerAdvice {
-    @ExceptionHandler({PersonCreateException.class, PersonUpdateException.class, PersonNotFoundException.class})
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String handleException(Exception e) {
-        return e.getMessage();
-    }
-}
-```
-
 ### Exercise 3: Exceptions extending ResponseStatusException
 
 In this exercise you'll handle the create exception directly in the api controller by catching it in a try/catch and
@@ -361,22 +216,6 @@ throw a new exception extinding the ResponseStatusException.
     - exception included.
 - Restart the application.
 - In Postman create a person where you add an ID to the body of the request and call the new method (create2).
-
-#### Solution
-
-```java
-@PostMapping("create2")
-@ResponseStatus(HttpStatus.CREATED)
-public Person create2(@RequestBody Person person) {
-    final Person created;
-    try {
-        created = personService.create(person);
-    } catch (PersonCreateException e) {
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Person not found", e);
-    }
-    return created;
-}
-```
 
 ### Exercise 4: Make your own ErrorController
 
@@ -408,23 +247,6 @@ final Map<String, Object> errorAttributes = defaultErrorAttributes.getErrorAttri
 - Return a Map with the message from the "error" key in the errorAttributes. This is where the BasicErrorController
   normally would create its WhiteLabel Error.
 
-#### Solution
-
-```java
-@RestController
-@RequestMapping("/error")
-public class MyErrorController implements ErrorController {
-  @RequestMapping
-  public ResponseEntity<Map<String, Object>> handleError(ServletWebRequest webRequest) {
-    final DefaultErrorAttributes defaultErrorAttributes = new DefaultErrorAttributes();
-    final Map<String, Object> errorAttributes = defaultErrorAttributes.getErrorAttributes(webRequest, ErrorAttributeOptions.of(ErrorAttributeOptions.Include.STACK_TRACE));
-    System.out.println("errorAttributes = " + errorAttributes);
-    Map<String, Object> body = Map.of("Message", errorAttributes.get("error"));
-    return new ResponseEntity<>(body, HttpStatus.valueOf((Integer) errorAttributes.get("status")));
-  }
-}
-```
-
 ## Exercises section 3: Filters and Intercepters
 
 Use the project *springbootcourse/api/person-service-api* as a starting point for the following exercises.
@@ -450,41 +272,6 @@ This should result in a whitelabelled 401 response.
 
 Now you should see the list of persons.
 
-#### Solution
-
-```java
-import jakarta.servlet.*;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Component;
-
-import java.io.IOException;
-
-public class SecurityFilter implements Filter {
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest req = (HttpServletRequest) request;
-        final String apiToken = req.getHeader("apiToken");
-        if (apiToken == null) {
-            System.out.println("Unauthorized");
-            HttpServletResponse res = (HttpServletResponse) response;
-            res.sendError(HttpStatus.UNAUTHORIZED.value(), "You shall not pass!");
-            return;
-        }
-
-        chain.doFilter(request, response);
-    }
-}
-```
-
-```java
-@Bean
-public FilterRegistrationBean<SecurityFilter> filterRegistrationBean() {
-    return new FilterRegistrationBean<>(new SecurityFilter());
-}
-```
-
 ### Exercise 2: Make security in an Intercepter
 
 We will now make the same security check by using an Intercepter.
@@ -506,37 +293,4 @@ This should result in a 401.
 
 - Run `curl localhost:8080/ -H "apiToken: abc"`
 
-#### Solution
-
-```java
-public class UnauthorizedException extends ResponseStatusException {
-    public UnauthorizedException() {
-        super(HttpStatus.UNAUTHORIZED, "The request requires an ApiToken");
-    }
-}
-```
-
-```java
-public class SecurityIntercepter implements HandlerInterceptor {
-    @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        final String apiToken = request.getHeader("apiToken");
-        if (apiToken == null) {
-            System.out.println("Unauthorized");
-            throw new UnauthorizedException();
-        }
-        return true;
-    }
-}
-```
-
-```java
-@Component
-public class IntercepterConfig implements WebMvcConfigurer {
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new SecurityIntercepter());
-    }
-}
-```
 
