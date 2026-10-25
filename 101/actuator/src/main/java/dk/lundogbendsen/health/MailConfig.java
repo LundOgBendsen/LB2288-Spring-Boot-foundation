@@ -9,9 +9,10 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties("app.mail")
 @Setter
 @Getter
-public class MailConfig {
-    String smtpServer;
-    int port = 25;
-    String username;
-    String password;
+public class MailConfig
+{
+	String smtpServer;
+	int port = 25;
+	String username;
+	String password;
 }

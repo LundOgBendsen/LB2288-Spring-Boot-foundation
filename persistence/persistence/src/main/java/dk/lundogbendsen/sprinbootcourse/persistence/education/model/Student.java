@@ -15,11 +15,12 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Student extends AuditedEntity{
-//    @Id
+public class Student extends AuditedEntity
+{
+	//    @Id
 //    @GeneratedValue
 //    private Long id;
-    private String name;
-    @ManyToMany(mappedBy = "students", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    private Set<Course> courses = new HashSet<>();
+	private String name;
+	@ManyToMany(mappedBy = "students", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	private Set<Course> courses = new HashSet<>();
 }

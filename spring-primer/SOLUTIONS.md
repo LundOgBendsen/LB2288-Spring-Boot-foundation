@@ -17,6 +17,7 @@ public class SpringPrimerApplication {
 ### Exercise 2 - Make a Bean with the @Bean-option, aka "Java Configuration"
 
 The TextUpperCaser class:
+
 ```
 public class TextUpperCaser {
     public String toUpperCase(String message) {
@@ -26,6 +27,7 @@ public class TextUpperCaser {
 ```
 
 The SpringPrimerApplication:
+
 ```
 @Configuration
 public class SpringPrimerApplication {
@@ -46,6 +48,7 @@ public class SpringPrimerApplication {
 ### Exercise 3 - Make a Bean with the @Service option, aka "Annotation Configuration"
 
 The TextUpperCaser class:
+
 ```
 @Service
 public class TextUpperCaser {
@@ -56,6 +59,7 @@ public class TextUpperCaser {
 ```
 
 The SpringPrimerApplication:
+
 ```
 @ComponentScan
 public class SpringPrimerApplication {
@@ -70,6 +74,7 @@ public class SpringPrimerApplication {
 ### Exercise 4 - Wiring using Option 1 (@Autowired)
 
 ServiceA and ServiceB:
+
 ```
 @Component
 public class ServiceA {
@@ -90,6 +95,7 @@ public class ServiceB {
 ```
 
 SpringPrimerApplication:
+
 ```
 @ComponentScan
 public class SpringPrimerApplication {
@@ -104,6 +110,7 @@ public class SpringPrimerApplication {
 ### Exercise 5 - Wiring using Option 2 (Constructor injection)
 
 ServiceA and ServiceB:
+
 ```
 @Component
 public class ServiceA {
@@ -127,6 +134,7 @@ public class ServiceB {
 ```
 
 SpringPrimerApplication:
+
 ```
 @ComponentScan
 public class SpringPrimerApplication {

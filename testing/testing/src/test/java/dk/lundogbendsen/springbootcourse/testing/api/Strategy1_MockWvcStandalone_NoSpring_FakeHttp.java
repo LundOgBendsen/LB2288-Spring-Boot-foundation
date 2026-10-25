@@ -20,41 +20,45 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
-public class Strategy1_MockWvcStandalone_NoSpring_FakeHttp {
+public class Strategy1_MockWvcStandalone_NoSpring_FakeHttp
+{
 
-    private MockMvc mvc;
+	private MockMvc mvc;
 
-    @Mock
-    private MyService myService;
+	@Mock
+	private MyService myService;
 
-    @InjectMocks
-    private PersonController personController;
+	@InjectMocks
+	private PersonController personController;
 
 
-    @BeforeEach
-    public void setup() {
-        // MockMvc standalone approach
-        mvc = MockMvcBuilders.standaloneSetup(personController)
+	@BeforeEach
+	public void setup()
+	{
+		// MockMvc standalone approach
+		mvc = MockMvcBuilders.standaloneSetup(personController)
 //                .setControllerAdvice(new controlleradvice...)
 //                .addFilters(new filter...)
-                .build();
-    }
+				.build();
+	}
 
-    @BeforeEach
-    public void init() {
-        Person person = new Person();
-        person.setName("Christian");
-        person.setId(1L);
-        given(myService.get(1L)).willReturn(person);
-    }
+	@BeforeEach
+	public void init()
+	{
+		Person person = new Person();
+		person.setName("Christian");
+		person.setId(1L);
+		given(myService.get(1L)).willReturn(person);
+	}
 
-    @Test
-    public void exampleTest() throws Exception {
-        mvc.perform(get("/1").contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().is2xxSuccessful())
-                .andExpect(jsonPath("$", hasKey("id")))
-                .andExpect(jsonPath("$", hasKey("name")))
-                .andExpect(jsonPath("$.name", is("Christian")));
-    }
+	@Test
+	public void exampleTest() throws Exception
+	{
+		mvc.perform(get("/1").contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().is2xxSuccessful())
+				.andExpect(jsonPath("$", hasKey("id")))
+				.andExpect(jsonPath("$", hasKey("name")))
+				.andExpect(jsonPath("$.name", is("Christian")));
+	}
 
 }

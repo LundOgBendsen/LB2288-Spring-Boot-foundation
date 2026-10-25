@@ -19,26 +19,29 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 
 @ExtendWith(MockitoExtension.class)
-public class TestBookStoreApi {
-    private MockMvc mockMvc;
+public class TestBookStoreApi
+{
+	private MockMvc mockMvc;
 
-    private BookRepository bookRepository = mock(BookRepository.class);
-    private OrderRepository orderRepository = mock(OrderRepository.class);
-    @InjectMocks
-    private OrderController orderController;
+	private BookRepository bookRepository = mock(BookRepository.class);
+	private OrderRepository orderRepository = mock(OrderRepository.class);
+	@InjectMocks
+	private OrderController orderController;
 
-    @BeforeEach
-    public void setup() {
-        // MockMvc standalone approach
-        mockMvc = MockMvcBuilders.standaloneSetup(orderController)
-                .build();
-    }
+	@BeforeEach
+	public void setup()
+	{
+		// MockMvc standalone approach
+		mockMvc = MockMvcBuilders.standaloneSetup(orderController)
+				.build();
+	}
 
-    @Test
-    @DisplayName("when I request the list of all Orders, I get all Orders")
-    public void testGetAllOrders() throws Exception {
-        mockMvc.perform(get("/orders")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(header().exists("Content-Type"));
-    }
+	@Test
+	@DisplayName("when I request the list of all Orders, I get all Orders")
+	public void testGetAllOrders() throws Exception
+	{
+		mockMvc.perform(get("/orders")
+						.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(header().exists("Content-Type"));
+	}
 }

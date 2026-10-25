@@ -7,16 +7,18 @@ import org.springframework.stereotype.Component;
 
 @Aspect
 @Component
-public class MethodExecutionTimerAspect {
-    @Around("bean(*Service)")
-    public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
-        long start = System.currentTimeMillis();
+public class MethodExecutionTimerAspect
+{
+	@Around("bean(*Service)")
+	public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable
+	{
+		long start = System.currentTimeMillis();
 
-        Object proceed = joinPoint.proceed();
+		Object proceed = joinPoint.proceed();
 
-        long executionTime = System.currentTimeMillis() - start;
+		long executionTime = System.currentTimeMillis() - start;
 
-        System.out.println("Around Advice: " + joinPoint.getSignature().getName() + " executed in " + executionTime + "ms");
-        return proceed;
-    }
+		System.out.println("Around Advice: " + joinPoint.getSignature().getName() + " executed in " + executionTime + "ms");
+		return proceed;
+	}
 }

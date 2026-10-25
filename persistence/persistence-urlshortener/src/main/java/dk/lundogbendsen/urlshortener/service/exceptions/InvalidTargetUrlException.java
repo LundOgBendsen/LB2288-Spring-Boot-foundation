@@ -1,4 +1,5 @@
 package dk.lundogbendsen.urlshortener.service.exceptions;
 
-public class InvalidTargetUrlException extends RuntimeException {
+public class InvalidTargetUrlException extends RuntimeException
+{
 }

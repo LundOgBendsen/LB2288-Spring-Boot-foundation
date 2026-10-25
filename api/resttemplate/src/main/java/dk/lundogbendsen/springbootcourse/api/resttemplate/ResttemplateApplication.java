@@ -6,14 +6,17 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
-public class ResttemplateApplication {
+public class ResttemplateApplication
+{
 
-    public static void main(String[] args) {
-        SpringApplication.run(ResttemplateApplication.class, args);
-    }
+	public static void main(String[] args)
+	{
+		SpringApplication.run(ResttemplateApplication.class, args);
+	}
 
-    @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
-    }
+	@Bean
+	public RestTemplate restTemplate()
+	{
+		return new RestTemplate();
+	}
 }

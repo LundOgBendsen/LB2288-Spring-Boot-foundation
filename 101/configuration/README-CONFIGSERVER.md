@@ -39,14 +39,14 @@ Now the server should be listening on port 8888 and have access to your repo.
 
 You should see a json structure containing the content of your application.properties.
 
- 
 ## Exercises Client
 
 ### 1: Create new Web+Config+Actuator project
 
-Inspect the pom.xml and see that you now have a new section called `<dependencyManagement>` including `spring-cloud-dependencies`. ConfigServer belongs to Spring Cloud stuff.
+Inspect the pom.xml and see that you now have a new section called `<dependencyManagement>` including
+`spring-cloud-dependencies`. ConfigServer belongs to Spring Cloud stuff.
 
-The dependency for the config client is: 
+The dependency for the config client is:
 
 ```xml
         <dependency>
@@ -64,7 +64,6 @@ The dependency for the config client is:
 
 ```
 
-
 Update the application.properties with the following content:
 
 ```properties
@@ -73,22 +72,25 @@ spring.config.import=optional:configserver:
 server.port=8084
 ```
 
-The `name` property is how the application will identify itself to the config server, so take care to make good naming conventions for your projects in the future.
+The `name` property is how the application will identify itself to the config server, so take care to make good naming
+conventions for your projects in the future.
 
-The `import` property instructs the config client that is should try to pull its configuration from a config-server. The default URI of the server is `http://localhost:8888`, 
-and that is why we did not have to specify it. 
+The `import` property instructs the config client that is should try to pull its configuration from a config-server. The
+default URI of the server is `http://localhost:8888`,
+and that is why we did not have to specify it.
 
-Should we want to, update the property like: 
+Should we want to, update the property like:
 
 `spring.config.import=optional:configserver:https://URI-of-your-config-server`.
 
-Furthermore, the `optional` part indicates that it's ok not being able to pull a configuration. Then you just continue with any other configuration lying around. 
+Furthermore, the `optional` part indicates that it's ok not being able to pull a configuration. Then you just continue
+with any other configuration lying around.
 
 If you remove `optional`, then the application will not start if it cannot pull a configuration from the config-server.
 
 ### 2: Start the client
 
-- What port does the client listen to? It should be port `8082`. 
+- What port does the client listen to? It should be port `8082`.
 
 So the configuration from config-server takes precedence over local configuration!
 
@@ -106,7 +108,8 @@ This expopses all endpoint of the Actuator letting you inspect every little deta
 
 - Restart the client.
 - Open a browser on: `http://localhost:8082/actuator/env`
-- Search for a section with `configserver:file`. Here you'll see the configuration that it has available from different property sources. from the config server. The topmost has the most precedence.
+- Search for a section with `configserver:file`. Here you'll see the configuration that it has available from different
+  property sources. from the config server. The topmost has the most precedence.
 
 ### 4: Add a new property file on the repo with the name of your app. Eg: `client1.properties`.
 
@@ -116,7 +119,8 @@ This expopses all endpoint of the Actuator letting you inspect every little deta
 
 Now you should see that it listens to the port you just added.
 
-So this tells us that values from `application.properties` are default values for any client connecting to the config-server. 
+So this tells us that values from `application.properties` are default values for any client connecting to the
+config-server.
 
 But if the config-server can find a specific property file, it's values will take precedence.
 

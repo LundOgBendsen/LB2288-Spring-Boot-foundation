@@ -5,7 +5,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/person")
-public class PersonController {
+public class PersonController
+{
 //    @Autowired PersonService personService;
 //
 //    @GetMapping

@@ -10,10 +10,11 @@ import java.util.List;
 
 @Entity
 @Data
-public class Department {
-    @Id
-    @GeneratedValue
-    private Long id;
-    @OneToMany
-    List<Employee> employees;
+public class Department
+{
+	@OneToMany
+	List<Employee> employees;
+	@Id
+	@GeneratedValue
+	private Long id;
 }

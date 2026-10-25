@@ -16,13 +16,14 @@ import java.util.Date;
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
-public abstract class AuditedEntity {
-    @Id
-    @GeneratedValue
-    private Long id;
+public abstract class AuditedEntity
+{
+	@Id
+	@GeneratedValue
+	private Long id;
 
-    @CreatedDate
-    private Date createdDate;
-    @LastModifiedDate
-    private Date updatedDate;
+	@CreatedDate
+	private Date createdDate;
+	@LastModifiedDate
+	private Date updatedDate;
 }

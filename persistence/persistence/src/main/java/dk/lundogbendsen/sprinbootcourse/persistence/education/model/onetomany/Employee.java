@@ -8,9 +8,11 @@ import lombok.Data;
 
 @Entity
 @Data
-public class Employee {
-    @Id @GeneratedValue
-    private Long id;
-    @ManyToOne
-    Department department;
+public class Employee
+{
+	@ManyToOne
+	Department department;
+	@Id
+	@GeneratedValue
+	private Long id;
 }

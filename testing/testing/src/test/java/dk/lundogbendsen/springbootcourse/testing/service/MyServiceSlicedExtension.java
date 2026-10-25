@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Optional;
 
@@ -20,27 +20,29 @@ import static org.mockito.Mockito.when;
  * Sliced SpringBoot application with only MyService and PersonRepository as Beans
  */
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes={MyService.class})
+@ContextConfiguration(classes = {MyService.class})
 // OR just... @SpringJUnitConfig(classes = {MyService.class})
-public class MyServiceSlicedExtension {
-    @MockitoBean
-    private PersonRepository personRepository;
+public class MyServiceSlicedExtension
+{
+	@Autowired
+	MyService myService;
+	@MockitoBean
+	private PersonRepository personRepository;
 
-    @Autowired
-    MyService myService;
+	@BeforeEach
+	public void init()
+	{
+		Person person = new Person();
+		person.setName("Christian");
+		person.setId(1L);
+		when(personRepository.findById(1L)).thenReturn(Optional.of(person));
+	}
 
-    @BeforeEach
-    public void init() {
-        Person person = new Person();
-        person.setName("Christian");
-        person.setId(1L);
-        when(personRepository.findById(1L)).thenReturn(Optional.of(person));
-    }
-
-    @Test
-    public void testGetPerson() {
-        Person person = myService.get(1L);
-        assertEquals(person.getName(), "Christian");
-    }
+	@Test
+	public void testGetPerson()
+	{
+		Person person = myService.get(1L);
+		assertEquals(person.getName(), "Christian");
+	}
 
 }

@@ -10,11 +10,11 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class Soldier {
-    @Id
-    @GeneratedValue
-    private Long id;
-
-    @OneToOne //(mappedBy = "soldier")
-    Rifle rifle;
+public class Soldier
+{
+	@OneToOne //(mappedBy = "soldier")
+	Rifle rifle;
+	@Id
+	@GeneratedValue
+	private Long id;
 }

@@ -8,23 +8,29 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.TimeUnit;
 
-public class HeavyJobService {
+public class HeavyJobService
+{
 
-    @Autowired
-    private StringRedisTemplate redisTemplate;
+	@Autowired
+	private StringRedisTemplate redisTemplate;
 
-    @Scheduled(cron = "*/10 * * * * *")
-    public void doHeavyJob() {
-        if (takeDistributedLock()) {
-            System.out.println("I got the distributed Lock - I'll start working!");
-        } else {
-            System.out.println("Someone else got the distributed lock - I'll just skip this one...");
-        }
+	@Scheduled(cron = "*/10 * * * * *")
+	public void doHeavyJob()
+	{
+		if(takeDistributedLock())
+		{
+			System.out.println("I got the distributed Lock - I'll start working!");
+		}
+		else
+		{
+			System.out.println("Someone else got the distributed lock - I'll just skip this one...");
+		}
 
-    }
+	}
 
-    private boolean takeDistributedLock() {
-        final Boolean transfer_lock = redisTemplate.opsForValue().setIfAbsent("TRANSFER_LOCK", LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME), 5, TimeUnit.SECONDS);
-        return transfer_lock;
-    }
+	private boolean takeDistributedLock()
+	{
+		final Boolean transfer_lock = redisTemplate.opsForValue().setIfAbsent("TRANSFER_LOCK", LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME), 5, TimeUnit.SECONDS);
+		return transfer_lock;
+	}
 }

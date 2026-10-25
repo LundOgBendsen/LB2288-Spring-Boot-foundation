@@ -6,49 +6,55 @@ import java.util.List;
 import java.util.Map;
 
 @Entity
-public class MultiValueEntity {
-    @Id
-    @GeneratedValue
-    private Long id;
+public class MultiValueEntity
+{
+	@ElementCollection
+	Map<String, Address> maps;
+	@ElementCollection
+	List<String> strings;
+	@Embedded
+	Address address;
+	@Id
+	@GeneratedValue
+	private Long id;
 
-    @ElementCollection
-    Map<String, Address>  maps;
+	public Map<String, Address> getMaps()
+	{
+		return maps;
+	}
 
-    @ElementCollection
-    List<String> strings;
+	public void setMaps(Map<String, Address> maps)
+	{
+		this.maps = maps;
+	}
 
-    @Embedded
-    Address address;
+	public Address getAddress()
+	{
+		return address;
+	}
 
-    public Map<String, Address> getMaps() {
-        return maps;
-    }
+	public void setAddress(Address addresses)
+	{
+		this.address = addresses;
+	}
 
-    public void setMaps(Map<String, Address> maps) {
-        this.maps = maps;
-    }
+	public Long getId()
+	{
+		return id;
+	}
 
-    public Address getAddress() {
-        return address;
-    }
+	public void setId(Long id)
+	{
+		this.id = id;
+	}
 
-    public void setAddress(Address addresses) {
-        this.address = addresses;
-    }
+	public List<String> getStrings()
+	{
+		return strings;
+	}
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public List<String> getStrings() {
-        return strings;
-    }
-
-    public void setStrings(List<String> strings) {
-        this.strings = strings;
-    }
+	public void setStrings(List<String> strings)
+	{
+		this.strings = strings;
+	}
 }

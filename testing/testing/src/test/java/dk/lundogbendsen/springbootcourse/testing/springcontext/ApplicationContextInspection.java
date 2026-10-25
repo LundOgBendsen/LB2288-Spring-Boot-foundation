@@ -9,12 +9,14 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
 //@SpringBootTest
-public class ApplicationContextInspection {
-    @Autowired
-    ApplicationContext context;
+public class ApplicationContextInspection
+{
+	@Autowired
+	ApplicationContext context;
 
-    @Test
-    public void test() {
-        AutowireCapableBeanFactory beanFactory = context.getAutowireCapableBeanFactory();
-    }
+	@Test
+	public void test()
+	{
+		AutowireCapableBeanFactory beanFactory = context.getAutowireCapableBeanFactory();
+	}
 }

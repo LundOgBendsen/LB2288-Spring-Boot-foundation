@@ -29,37 +29,38 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 // Register the classes in the list as SpringBean
 @WebMvcTest({PersonController.class}) // Tell slice to ONLY load the PersonController, and the other controllers.
 // Filters are loaded (eg dk.lundogbendsen.springbootcourse.testing.api.LoggingFilter)
-public class Strategy2_SlicedSpring_FakeHttp {
+public class Strategy2_SlicedSpring_FakeHttp
+{
 
-    @Autowired
-    private MockMvc mvc;
+	@Autowired
+	ApplicationContext applicationContext;
+	@MockitoSpyBean
+	MyService myService;
+	@Autowired
+	private MockMvc mvc;
+	// Register a Mocked bean in the place of this type. This Mock will be Dependency Injected into the other Spring Beans
+	@MockitoBean
+	private PersonRepository personRepository;
 
-    @Autowired
-    ApplicationContext applicationContext;
+	@BeforeEach
+	public void init()
+	{
+		Person person = new Person();
+		person.setName("Christian");
+		person.setId(1L);
+		given(personRepository.findById(1L)).willReturn(Optional.of(person));
+	}
 
-    // Register a Mocked bean in the place of this type. This Mock will be Dependency Injected into the other Spring Beans
-    @MockitoBean
-    private PersonRepository personRepository;
-
-    @MockitoSpyBean
-    MyService myService;
-    @BeforeEach
-    public void init() {
-        Person person = new Person();
-        person.setName("Christian");
-        person.setId(1L);
-        given(personRepository.findById(1L)).willReturn(Optional.of(person));
-    }
-
-    @Test
-    public void exampleTest() throws Exception {
-        MockHttpServletRequestBuilder requestBuilder = get("/1").contentType(MediaType.APPLICATION_JSON);
-        ResultActions perform = mvc.perform(requestBuilder);
-        perform
-                .andExpect(status().is2xxSuccessful())
-                .andExpect(jsonPath("$", hasKey("id")))
-                .andExpect(jsonPath("$", hasKey("name")))
-                .andExpect(jsonPath("$.name", is("Christian")));
-    }
+	@Test
+	public void exampleTest() throws Exception
+	{
+		MockHttpServletRequestBuilder requestBuilder = get("/1").contentType(MediaType.APPLICATION_JSON);
+		ResultActions perform = mvc.perform(requestBuilder);
+		perform
+				.andExpect(status().is2xxSuccessful())
+				.andExpect(jsonPath("$", hasKey("id")))
+				.andExpect(jsonPath("$", hasKey("name")))
+				.andExpect(jsonPath("$.name", is("Christian")));
+	}
 
 }

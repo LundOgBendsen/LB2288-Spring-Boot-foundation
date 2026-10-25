@@ -5,7 +5,7 @@
     <!-- Pull out the application name from the Springboot configuration -->
     <contextName>${spring.application.name}</contextName>
     <springProfile name="!default">
-        <appender name="Console"  class="ch.qos.logback.core.ConsoleAppender">
+        <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
             <!-- Use a Json encoder-->
             <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
                 <providers>

@@ -9,15 +9,17 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class TeacherRepositoryCustomImpl implements TeacherRepositoryCustom {
-    @Autowired
-    EntityManager entityManager;
+public class TeacherRepositoryCustomImpl implements TeacherRepositoryCustom
+{
+	@Autowired
+	EntityManager entityManager;
 
-    @Override
-    public List<Student> getStudents(String teacherName) {
-        final Query query = entityManager.createQuery("select s from Course c inner join c.students s where c.teacher.name=:name", Student.class);
-        query.setParameter("name", teacherName);
-        return query.getResultList();
-    }
+	@Override
+	public List<Student> getStudents(String teacherName)
+	{
+		final Query query = entityManager.createQuery("select s from Course c inner join c.students s where c.teacher.name=:name", Student.class);
+		query.setParameter("name", teacherName);
+		return query.getResultList();
+	}
 
 }

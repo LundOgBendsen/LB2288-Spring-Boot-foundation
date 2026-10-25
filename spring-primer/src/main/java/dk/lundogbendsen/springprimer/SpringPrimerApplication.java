@@ -6,8 +6,10 @@ import org.springframework.context.annotation.ComponentScan;
 
 //@SpringBootApplication
 @ComponentScan
-public class SpringPrimerApplication {
-    public static void main(String[] args) {
-        final ConfigurableApplicationContext context = SpringApplication.run(SpringPrimerApplication.class, args);
-    }
+public class SpringPrimerApplication
+{
+	public static void main(String[] args)
+	{
+		final ConfigurableApplicationContext context = SpringApplication.run(SpringPrimerApplication.class, args);
+	}
 }

@@ -1,4 +1,5 @@
 package dk.lundogbendsen.urlshortener.service.exceptions;
 
-public class AccessDeniedException extends RuntimeException {
+public class AccessDeniedException extends RuntimeException
+{
 }

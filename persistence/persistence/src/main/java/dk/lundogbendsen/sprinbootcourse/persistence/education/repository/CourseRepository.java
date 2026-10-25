@@ -11,25 +11,26 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface CourseRepository extends JpaRepository<Course, Long> {
-    List<Course> findByStudents(Student student);
+public interface CourseRepository extends JpaRepository<Course, Long>
+{
+	List<Course> findByStudents(Student student);
 
-    List<Course> findDistinctByStudentsIn(List<Student> students);
+	List<Course> findDistinctByStudentsIn(List<Student> students);
 
-    @Query(value = "select distinct c.id from Course c inner join c.students s where s.name in :names")
-    List<Long> findCourseIdsByStudentNames(@Param("names") List<String> studentNames);
+	@Query(value = "select distinct c.id from Course c inner join c.students s where s.name in :names")
+	List<Long> findCourseIdsByStudentNames(@Param("names") List<String> studentNames);
 
-    @Query(value = "select distinct c from Course c inner join c.students s where s.name in :names")
-    List<Course> findCoursesByStudentNames(@Param("names") List<String> studentNames);
+	@Query(value = "select distinct c from Course c inner join c.students s where s.name in :names")
+	List<Course> findCoursesByStudentNames(@Param("names") List<String> studentNames);
 
-    @Query("select new dk.lundogbendsen.sprinbootcourse.persistence.education.model.StudentCourseCount(s.name, count(s.name)) from Course c inner join c.students s group by s.id")
-    List<StudentCourseCount> findTopStudents();
-
-
+	@Query("select new dk.lundogbendsen.sprinbootcourse.persistence.education.model.StudentCourseCount(s.name, count(s.name)) from Course c inner join c.students s group by s.id")
+	List<StudentCourseCount> findTopStudents();
 
 
-    List<Course> findCoursesByPointsBetween(Integer start, Integer end);
-    List<Course> findCoursesByPointsBetweenAndStudentsAndTeacher(Integer start, Integer end, Student student, Teacher teacher, Pageable pageable);
-    @Query("select c from Course c inner join c.students s where c.points between ?1 and ?2 and s=?3 and c.teacher=?4")
-    List<Course> listCourses(Integer start, Integer end, Student student, Teacher teacher, Pageable pageable);
+	List<Course> findCoursesByPointsBetween(Integer start, Integer end);
+
+	List<Course> findCoursesByPointsBetweenAndStudentsAndTeacher(Integer start, Integer end, Student student, Teacher teacher, Pageable pageable);
+
+	@Query("select c from Course c inner join c.students s where c.points between ?1 and ?2 and s=?3 and c.teacher=?4")
+	List<Course> listCourses(Integer start, Integer end, Student student, Teacher teacher, Pageable pageable);
 }

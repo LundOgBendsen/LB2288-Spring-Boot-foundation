@@ -12,13 +12,13 @@
 
     <!-- LOG everything at INFO level -->
     <root level="info">
-        <appender-ref ref="Console" />
+        <appender-ref ref="Console"/>
     </root>
 
     <springProfile name="!production">
         <!-- configuration to be enabled when the "production" profile is not active -->
         <logger name="dk" level="trace" additivity="false">
-            <appender-ref ref="Console" />
+            <appender-ref ref="Console"/>
         </logger>
     </springProfile>
 

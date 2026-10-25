@@ -9,21 +9,25 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
-public class ExceptionHandlerAdvicer {
+public class ExceptionHandlerAdvicer
+{
 
-    @ResponseStatus(HttpStatus.FORBIDDEN)
-    @ExceptionHandler
-    public void handleAccessDenied(AccessDeniedException accessDeniedException) {
-    }
+	@ResponseStatus(HttpStatus.FORBIDDEN)
+	@ExceptionHandler
+	public void handleAccessDenied(AccessDeniedException accessDeniedException)
+	{
+	}
 
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler
-    public void handleRuntime(RuntimeException runtimeException) {
-    }
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	@ExceptionHandler
+	public void handleRuntime(RuntimeException runtimeException)
+	{
+	}
 
-    @ResponseStatus(HttpStatus.CONFLICT)
-    @ExceptionHandler({TokenAlreadyExistsException.class, UserExistsException.class})
-    public String handleConflict(Exception runtimeException) {
-        return runtimeException.getMessage();
-    }
+	@ResponseStatus(HttpStatus.CONFLICT)
+	@ExceptionHandler({TokenAlreadyExistsException.class, UserExistsException.class})
+	public String handleConflict(Exception runtimeException)
+	{
+		return runtimeException.getMessage();
+	}
 }

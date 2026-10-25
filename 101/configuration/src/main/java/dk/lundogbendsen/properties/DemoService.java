@@ -6,10 +6,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Profile("demo")
-public class DemoService {
+public class DemoService
+{
 
-    @PostConstruct
-    public void getHelloMessage() {
-        System.out.println("Hello from DemoService");
-    }
+	@PostConstruct
+	public void getHelloMessage()
+	{
+		System.out.println("Hello from DemoService");
+	}
 }

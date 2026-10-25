@@ -6,7 +6,8 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 
 @AutoConfiguration
 //@ConditionalOnClass(PersonService.class)
-public class PersonServiceConfiguration {
+public class PersonServiceConfiguration
+{
 
 //    @Bean
 //    @ConditionalOnMissingBean(PersonService.class)

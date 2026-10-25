@@ -15,13 +15,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class MyServiceMockitoExtension {
+public class MyServiceMockitoExtension
+{
 //    @Rule public MockitoRule rule = MockitoJUnit.rule();
 
-    @Mock private PersonRepository personRepository;
+	@Mock
+	private PersonRepository personRepository;
 
-    @InjectMocks
-    private MyService myService;
+	@InjectMocks
+	private MyService myService;
 
 //    @BeforeEach
 //    public void initMocks() {
@@ -29,18 +31,20 @@ public class MyServiceMockitoExtension {
 //    }
 
 
-    @BeforeEach
-    public void init() {
-        Person person = new Person();
-        person.setName("Christian");
-        person.setId(1L);
-        when(personRepository.findById(1L)).thenReturn(Optional.of(person));
-    }
+	@BeforeEach
+	public void init()
+	{
+		Person person = new Person();
+		person.setName("Christian");
+		person.setId(1L);
+		when(personRepository.findById(1L)).thenReturn(Optional.of(person));
+	}
 
-    @Test
-    public void testGetPerson() {
-        Person person = myService.get(1L);
-        assertEquals(person.getName(), "Christian");
-    }
+	@Test
+	public void testGetPerson()
+	{
+		Person person = myService.get(1L);
+		assertEquals(person.getName(), "Christian");
+	}
 
 }

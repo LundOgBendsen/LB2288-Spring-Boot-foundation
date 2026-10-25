@@ -12,12 +12,13 @@ public String utf8ToString(byte[] bytes) throws UnsupportedEncodingException {
 }
 ```
 
-It throws a checked exception which is unnecessary because UTF-8 is always legal. Use @SneakyThrows to remove the checked exception from the method signature. 
+It throws a checked exception which is unnecessary because UTF-8 is always legal. Use @SneakyThrows to remove the
+checked exception from the method signature.
 
 Hint: Look up usage of @SneakyThrows in the java doc.
 
-
 #### Solution
+
 ```
 public class StringUtility {
     @SneakyThrows(UnsupportedEncodingException.class)
@@ -26,8 +27,6 @@ public class StringUtility {
     }
 }
 ```
-
-
 
 ### Exercise 2: Use @Cleanup to auto close resources
 
@@ -45,7 +44,8 @@ static String readFirstLineFromFileWithFinallyBlock(String path)
 }
 ```
 
-Problem is that it is clumpsy and error prone. You have to remember the finally block. Java 7 introduced Closables to convert this into:
+Problem is that it is clumpsy and error prone. You have to remember the finally block. Java 7 introduced Closables to
+convert this into:
 
 ```
 static String readFirstLineFromFile(String path) throws IOException {
@@ -62,9 +62,8 @@ Use @Cleanup to implement a beautiful clean solution to solve the same problem.
 
 Hint: Look up usage of @Cleanup in the java doc.
 
-
-
 #### Solution
+
 ```
     @SneakyThrows
     static String readFirstLineFromFile(String path) {
@@ -73,9 +72,8 @@ Hint: Look up usage of @Cleanup in the java doc.
     }
 ```
 
-
-
 ### Exercise 3: Use @Slf4j to inject a Logger into a Service
+
 Normally every service needs to log stuff. They therefore create a Logger like this:
 
 ```
@@ -90,8 +88,8 @@ public class ImportantService {
 
 Use Lomboks @Slf4j annotation to inject a Logger instead of manually creating one on every service.
 
-
 #### Solution
+
 ```
 @Service
 @Slf4j
@@ -102,10 +100,11 @@ public class ImportantService {
 }        
 ```
 
-
 ### Exercise 4: Make the perfect Pojo with Getters, Setters, ToString, HashCode and Equals implementations
 
-Normally you are responsible for besides declaring fields of a Pojo to also implements getters and setters and hashCode and Equals methods. You also need to override the toString() method in order to easily log the content of the pojo runtime. Below is an example:
+Normally you are responsible for besides declaring fields of a Pojo to also implements getters and setters and hashCode
+and Equals methods. You also need to override the toString () method in order to easily log the content of the pojo
+runtime. Below is an example:
 
 ```
 public class Customer {
@@ -239,7 +238,6 @@ Furthermore - these methods must be maintained as the Pojo evolves. If you add m
 Use Lombok @Data annotation to make a very clean, elegant readable Pojo with high maintainability.
 
 Hint: Lookup java doc on the @Data to see is usage
-
 
 ### Solution
 

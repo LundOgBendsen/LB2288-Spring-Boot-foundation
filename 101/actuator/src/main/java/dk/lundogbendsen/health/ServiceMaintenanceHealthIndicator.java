@@ -6,21 +6,26 @@ import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ServiceMaintenanceHealthIndicator implements HealthIndicator {
+public class ServiceMaintenanceHealthIndicator implements HealthIndicator
+{
 
-    @Setter
-    private Boolean inMaintenance = false;
+	@Setter
+	private Boolean inMaintenance = false;
 
-    public void setInMaintenance(Boolean inMaintenance) {
-        this.inMaintenance = inMaintenance;
-    }
-    @Override
-    public Health health() {
-        if (!inMaintenance) {
-            return Health.up().build();
-        }
-        return Health.down()
-                .withDetail("Reason", "In Maintenance period")
-                .build();
-    }
+	public void setInMaintenance(Boolean inMaintenance)
+	{
+		this.inMaintenance = inMaintenance;
+	}
+
+	@Override
+	public Health health()
+	{
+		if(!inMaintenance)
+		{
+			return Health.up().build();
+		}
+		return Health.down()
+				.withDetail("Reason", "In Maintenance period")
+				.build();
+	}
 }

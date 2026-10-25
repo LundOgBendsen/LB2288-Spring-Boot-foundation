@@ -6,14 +6,17 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-public class HealthApplication {
+public class HealthApplication
+{
 
-    public static void main(String[] args) {
-        SpringApplication.run(HealthApplication.class, args);
-    }
+	public static void main(String[] args)
+	{
+		SpringApplication.run(HealthApplication.class, args);
+	}
 
-    @Bean
-    public FilterRegistrationBean<MyMetricsTimerFilter> filterRegistrationBean(MyMetricsTimerFilter myMetricsTimerFilter) {
-        return new FilterRegistrationBean<>(myMetricsTimerFilter);
-    }
+	@Bean
+	public FilterRegistrationBean<MyMetricsTimerFilter> filterRegistrationBean(MyMetricsTimerFilter myMetricsTimerFilter)
+	{
+		return new FilterRegistrationBean<>(myMetricsTimerFilter);
+	}
 }

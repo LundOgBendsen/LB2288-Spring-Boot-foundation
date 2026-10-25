@@ -7,11 +7,12 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface StudentRepository extends JpaRepository<Student, Long> {
+public interface StudentRepository extends JpaRepository<Student, Long>
+{
 
-    @Query("select s, sum(c.points) as points from Student s inner join s.courses c group by s")
-    List<Student> findTopStudents(Pageable pageable);
+	@Query("select s, sum(c.points) as points from Student s inner join s.courses c group by s")
+	List<Student> findTopStudents(Pageable pageable);
 
-//    @Transactional
-    void deleteByName(String name);
+	//    @Transactional
+	void deleteByName(String name);
 }

@@ -11,26 +11,29 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 
 @Service
-public class OrderService {
+public class OrderService
+{
 
-    @Autowired
-    private BookRepository bookRepository;
+	@Autowired
+	private BookRepository bookRepository;
 
-    @Autowired
-    private OrderRepository orderRepository;
+	@Autowired
+	private OrderRepository orderRepository;
 
-    @Autowired
-    private OrderLineRepository orderLineRepository;
+	@Autowired
+	private OrderLineRepository orderLineRepository;
 
-    public void save(Order order) {
-        order.setCreationDate(new Date());
-        for (OrderLine orderLine : order.getOrderLines()) {
-            bookRepository.findById(orderLine.getBook().getId())
-                          .ifPresent(orderLine::setBook);
+	public void save(Order order)
+	{
+		order.setCreationDate(new Date());
+		for(OrderLine orderLine : order.getOrderLines())
+		{
+			bookRepository.findById(orderLine.getBook().getId())
+					.ifPresent(orderLine::setBook);
 
-            orderLineRepository.save(orderLine);
-        }
-        orderRepository.save(order);
-    }
+			orderLineRepository.save(orderLine);
+		}
+		orderRepository.save(order);
+	}
 
 }

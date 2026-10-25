@@ -13,14 +13,15 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Course extends AuditedEntity {
-//    @Id
+public class Course extends AuditedEntity
+{
+	//    @Id
 //    @GeneratedValue
 //    private Long id;
-    private String subject;
-    private Integer points;
-    @ManyToOne
-    private Teacher teacher;
-    @ManyToMany
-    private Set<Student> students;
+	private String subject;
+	private Integer points;
+	@ManyToOne
+	private Teacher teacher;
+	@ManyToMany
+	private Set<Student> students;
 }

@@ -21,12 +21,13 @@ import java.util.Date;
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "users")
-public class User {
-    @Id
-    String username;
-    String password;
-    @CreatedDate
-    private Date createdDate;
-    @LastModifiedDate
-    private Date updatedDate;
+public class User
+{
+	@Id
+	String username;
+	String password;
+	@CreatedDate
+	private Date createdDate;
+	@LastModifiedDate
+	private Date updatedDate;
 }

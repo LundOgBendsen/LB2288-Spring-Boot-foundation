@@ -9,33 +9,39 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class UserService {
-    @Autowired
-    private TokenService tokenService;
-    @Autowired
-    UserRepository userRepository;
+public class UserService
+{
+	@Autowired
+	UserRepository userRepository;
+	@Autowired
+	private TokenService tokenService;
 
-    public User create(String userName, String password) {
-        Optional<User> exitingUser = userRepository.findById(userName);
-        if (exitingUser.isPresent()) {
-            throw new UserExistsException();
-        }
-        User user = User.builder().username(userName).password(password).build();
-        userRepository.save(user);
-        return user;
-    }
+	public User create(String userName, String password)
+	{
+		Optional<User> exitingUser = userRepository.findById(userName);
+		if(exitingUser.isPresent())
+		{
+			throw new UserExistsException();
+		}
+		User user = User.builder().username(userName).password(password).build();
+		userRepository.save(user);
+		return user;
+	}
 
-//    @Transactional
-    public void delete(String userName) {
-        Optional<User> user = userRepository.findById(userName);
-        if (user.isPresent()) {
-            tokenService.deleteTokens(user.get());
-            throw new RuntimeException();
-        }
-        userRepository.delete(user.get());
-    }
+	//    @Transactional
+	public void delete(String userName)
+	{
+		Optional<User> user = userRepository.findById(userName);
+		if(user.isPresent())
+		{
+			tokenService.deleteTokens(user.get());
+			throw new RuntimeException();
+		}
+		userRepository.delete(user.get());
+	}
 
-    public User getUser(String userName) {
-        return userRepository.findById(userName).orElse(null);
-    }
+	public User getUser(String userName)
+	{
+		return userRepository.findById(userName).orElse(null);
+	}
 }

@@ -27,35 +27,37 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 // Set up a MockMvc client as a Spring Bean
 @AutoConfigureMockMvc
-public class Strategy3_FullSpringBoot_FakeHttp {
+public class Strategy3_FullSpringBoot_FakeHttp
+{
 
-    @Autowired
-    private MockMvc mvc;
-    @Autowired
-    ApplicationContext applicationContext;
+	@Autowired
+	ApplicationContext applicationContext;
+	@Autowired
+	private MockMvc mvc;
+	// Register a Mocked bean in the place of this type. This Mock will be Dependency Injected into the other Spring Beans
+	@MockitoBean
+	private PersonRepository personRepository;
 
-    // Register a Mocked bean in the place of this type. This Mock will be Dependency Injected into the other Spring Beans
-    @MockitoBean
-    private PersonRepository personRepository;
+	@BeforeEach
+	public void init()
+	{
+		Person person = new Person();
+		person.setName("Christian");
+		person.setId(1L);
+		given(personRepository.findById(1L)).willReturn(Optional.of(person));
+	}
 
-    @BeforeEach
-    public void init() {
-        Person person = new Person();
-        person.setName("Christian");
-        person.setId(1L);
-        given(personRepository.findById(1L)).willReturn(Optional.of(person));
-    }
-
-    @Test
-    public void exampleTest() throws Exception {
-        MockHttpServletRequestBuilder requestBuilder =
-                get("/1").contentType(MediaType.APPLICATION_JSON);
-        ResultActions perform = mvc.perform(requestBuilder);
-        perform
-                .andExpect(status().is2xxSuccessful())
-                .andExpect(jsonPath("$", hasKey("id")))
-                .andExpect(jsonPath("$", hasKey("name")))
-                .andExpect(jsonPath("$.name", is("Christian")));
-    }
+	@Test
+	public void exampleTest() throws Exception
+	{
+		MockHttpServletRequestBuilder requestBuilder =
+				get("/1").contentType(MediaType.APPLICATION_JSON);
+		ResultActions perform = mvc.perform(requestBuilder);
+		perform
+				.andExpect(status().is2xxSuccessful())
+				.andExpect(jsonPath("$", hasKey("id")))
+				.andExpect(jsonPath("$", hasKey("name")))
+				.andExpect(jsonPath("$.name", is("Christian")));
+	}
 
 }

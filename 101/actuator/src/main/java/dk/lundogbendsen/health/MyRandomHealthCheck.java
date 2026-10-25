@@ -5,12 +5,15 @@ import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MyRandomHealthCheck implements HealthIndicator {
-    @Override
-    public Health health() {
-        if (Math.random() > .5) {
-            return Health.down().build();
-        }
-        return Health.up().build();
-    }
+public class MyRandomHealthCheck implements HealthIndicator
+{
+	@Override
+	public Health health()
+	{
+		if(Math.random() > .5)
+		{
+			return Health.down().build();
+		}
+		return Health.up().build();
+	}
 }

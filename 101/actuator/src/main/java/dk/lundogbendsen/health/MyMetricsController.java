@@ -10,20 +10,23 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Slf4j
-public class MyMetricsController {
-    @Autowired
-    private MeterRegistry meterRegistry;
+public class MyMetricsController
+{
+	@Autowired
+	private MeterRegistry meterRegistry;
 
-    @PostMapping
-    public void sendData(@RequestBody String data) {
-        meterRegistry.counter("content-size", "unit", "chars").increment(data.length());
-    }
+	@PostMapping
+	public void sendData(@RequestBody String data)
+	{
+		meterRegistry.counter("content-size", "unit", "chars").increment(data.length());
+	}
 
-    @GetMapping
-    public String get() {
-        meterRegistry.counter("Hello World called", "unit", "times").increment();
-        log.info("Called get");
-        return "Hello World";
-    }
+	@GetMapping
+	public String get()
+	{
+		meterRegistry.counter("Hello World called", "unit", "times").increment();
+		log.info("Called get");
+		return "Hello World";
+	}
 
 }

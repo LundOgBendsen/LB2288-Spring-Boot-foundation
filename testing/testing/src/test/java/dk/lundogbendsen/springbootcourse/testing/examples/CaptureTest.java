@@ -13,19 +13,21 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-public class CaptureTest {
-    @Mock
-    List<String> mockedList;
+public class CaptureTest
+{
+	@Mock
+	List<String> mockedList;
 
-    @Captor
-    ArgumentCaptor<String> argCaptor;
+	@Captor
+	ArgumentCaptor<String> argCaptor;
 
-    @Test
-    public void whenUseCaptorAnnotation_thenTheSam() {
-        mockedList.add("one");
-        verify(mockedList).add(argCaptor.capture());
+	@Test
+	public void whenUseCaptorAnnotation_thenTheSam()
+	{
+		mockedList.add("one");
+		verify(mockedList).add(argCaptor.capture());
 
-        assertEquals("one", argCaptor.getValue());
-    }
+		assertEquals("one", argCaptor.getValue());
+	}
 
 }

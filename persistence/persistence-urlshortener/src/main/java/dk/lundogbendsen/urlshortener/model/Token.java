@@ -20,15 +20,18 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class Token {
-    @Id
-    String token;
-    String protectToken;
-    String targetUrl;
-    @ManyToOne
-    User user;
+public class Token
+{
+	@Id
+	String token;
+	String protectToken;
+	String targetUrl;
+	@ManyToOne
+	User user;
 
-    @CreatedDate private Date createdDate;
-    @LastModifiedDate private Date updatedDate;
+	@CreatedDate
+	private Date createdDate;
+	@LastModifiedDate
+	private Date updatedDate;
 
 }

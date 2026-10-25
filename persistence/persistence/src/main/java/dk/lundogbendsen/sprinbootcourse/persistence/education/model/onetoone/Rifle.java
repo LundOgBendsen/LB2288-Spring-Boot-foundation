@@ -10,13 +10,13 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class Rifle {
-    @Id
-    @GeneratedValue
-    private Long id;
-
-//    @MapsId
-    @OneToOne //(mappedBy = "rifle")
+public class Rifle
+{
+	//    @MapsId
+	@OneToOne //(mappedBy = "rifle")
 //        @JoinColumn(unique = true) // Enforce one-to-one
-        Soldier soldier;
+			Soldier soldier;
+	@Id
+	@GeneratedValue
+	private Long id;
 }

@@ -6,15 +6,18 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class SecurityConfig implements WebMvcConfigurer {
+public class SecurityConfig implements WebMvcConfigurer
+{
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(securityIntercepter());
-    }
+	@Override
+	public void addInterceptors(InterceptorRegistry registry)
+	{
+		registry.addInterceptor(securityIntercepter());
+	}
 
-    @Bean
-    public SecurityIntercepter securityIntercepter() {
-        return new SecurityIntercepter();
-    }
+	@Bean
+	public SecurityIntercepter securityIntercepter()
+	{
+		return new SecurityIntercepter();
+	}
 }

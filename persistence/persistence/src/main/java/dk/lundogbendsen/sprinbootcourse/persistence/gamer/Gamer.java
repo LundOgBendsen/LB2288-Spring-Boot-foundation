@@ -9,10 +9,11 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class Gamer {
-    @Id
-    @GeneratedValue
-    private Long id;
-    private String alias;
-    private String avatar;
+public class Gamer
+{
+	@Id
+	@GeneratedValue
+	private Long id;
+	private String alias;
+	private String avatar;
 }

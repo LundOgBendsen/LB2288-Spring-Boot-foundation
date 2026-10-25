@@ -10,33 +10,36 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @DataJpaTest
 //@DataMongoTest
 //@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class GamerTest {
-    @Autowired
-    EntityManager entityManager;
+public class GamerTest
+{
+	@Autowired
+	EntityManager entityManager;
 
-    @Autowired
-    GamerRepository gamerRepository;
+	@Autowired
+	GamerRepository gamerRepository;
 
 
-    @Test
-    public void persistGamer() {
-        Gamer gamer = new Gamer();
-        gamer.setAlias("The Master");
-        gamer.setAvatar("ABC");
-        entityManager.persist(gamer);
-        entityManager.flush();
-    }
+	@Test
+	public void persistGamer()
+	{
+		Gamer gamer = new Gamer();
+		gamer.setAlias("The Master");
+		gamer.setAvatar("ABC");
+		entityManager.persist(gamer);
+		entityManager.flush();
+	}
 
-    @Test
+	@Test
 //    @Rollback(value = false)
-    public void testGetGamer() {
-        Gamer gamer = new Gamer();
-        gamer.setAlias("The Master");
-        gamer.setAvatar("ABC");
-        gamerRepository.save(gamer);
-        gamerRepository.flush();
-        entityManager.clear();
-        final Gamer gamer1 = gamerRepository.findById(gamer.getId()).get();
-        assertEquals("The Master", gamer1.getAlias());
-    }
+	public void testGetGamer()
+	{
+		Gamer gamer = new Gamer();
+		gamer.setAlias("The Master");
+		gamer.setAvatar("ABC");
+		gamerRepository.save(gamer);
+		gamerRepository.flush();
+		entityManager.clear();
+		final Gamer gamer1 = gamerRepository.findById(gamer.getId()).get();
+		assertEquals("The Master", gamer1.getAlias());
+	}
 }

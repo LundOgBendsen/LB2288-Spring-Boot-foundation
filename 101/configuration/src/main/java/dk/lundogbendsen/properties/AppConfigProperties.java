@@ -5,10 +5,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 @ConfigurationProperties(prefix = "myapp")
-public class AppConfigProperties {
-    String databaseEndpoint;
+public class AppConfigProperties
+{
+	String databaseEndpoint;
 
-    public void setDatabaseEndpoint(String databaseEndpoint) {
-        this.databaseEndpoint = databaseEndpoint;
-    }
+	public void setDatabaseEndpoint(String databaseEndpoint)
+	{
+		this.databaseEndpoint = databaseEndpoint;
+	}
 }

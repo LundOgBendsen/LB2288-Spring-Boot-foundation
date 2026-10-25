@@ -5,10 +5,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 //@EnableJpaAuditing
-public class PersistenceApplication {
+public class PersistenceApplication
+{
 
-    public static void main(String[] args) {
-        SpringApplication.run(PersistenceApplication.class, args);
-    }
+	public static void main(String[] args)
+	{
+		SpringApplication.run(PersistenceApplication.class, args);
+	}
 
 }

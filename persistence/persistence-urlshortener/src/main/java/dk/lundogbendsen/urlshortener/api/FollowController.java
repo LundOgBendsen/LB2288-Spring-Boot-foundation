@@ -11,13 +11,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class FollowController {
-    @Autowired
-    TokenService tokenService;
+public class FollowController
+{
+	@Autowired
+	TokenService tokenService;
 
-    @GetMapping("{token}")
-    public ResponseEntity<Object> follow(@PathVariable String token) {
-        final String targetUrl = tokenService.resolveToken(token, SecurityContext.getProtectToken());
-        return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY).header(HttpHeaders.LOCATION, targetUrl).build();
-    }
+	@GetMapping("{token}")
+	public ResponseEntity<Object> follow(@PathVariable String token)
+	{
+		final String targetUrl = tokenService.resolveToken(token, SecurityContext.getProtectToken());
+		return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY).header(HttpHeaders.LOCATION, targetUrl).build();
+	}
 }

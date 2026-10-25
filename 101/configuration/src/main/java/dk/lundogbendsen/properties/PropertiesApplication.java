@@ -8,19 +8,22 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-public class PropertiesApplication {
+public class PropertiesApplication
+{
 
-    Logger logger = LoggerFactory.getLogger(PropertiesApplication.class);
+	Logger logger = LoggerFactory.getLogger(PropertiesApplication.class);
 
-    public static void main(String[] args) {
-        SpringApplication.run(PropertiesApplication.class, args);
-    }
+	public static void main(String[] args)
+	{
+		SpringApplication.run(PropertiesApplication.class, args);
+	}
 
-    @Bean
-    public CommandLineRunner demo(AppConfigValue appConfigValue, AppConfigProperties appConfigProperties) {
-        return args -> {
-            logger.info("Current AppConfiguration: {}", appConfigValue);
-            logger.info("Current AppConfigProperties: {}", appConfigProperties.databaseEndpoint);
-        };
-    }
+	@Bean
+	public CommandLineRunner demo(AppConfigValue appConfigValue, AppConfigProperties appConfigProperties)
+	{
+		return args -> {
+			logger.info("Current AppConfiguration: {}", appConfigValue);
+			logger.info("Current AppConfigProperties: {}", appConfigProperties.databaseEndpoint);
+		};
+	}
 }

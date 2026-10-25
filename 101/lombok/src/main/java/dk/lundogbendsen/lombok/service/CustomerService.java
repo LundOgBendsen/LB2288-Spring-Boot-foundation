@@ -14,23 +14,26 @@ import java.util.Date;
 
 @Service
 @Slf4j
-public class CustomerService {
-    public Customer create(String name, Long id, String email, Date created) {
-        final Customer customer = Customer.builder().id(id).name(name).created(created).email(email).build();
+public class CustomerService
+{
+	static String readFirstLineFromFile(String path) throws IOException
+	{
+		@Cleanup BufferedReader br = new BufferedReader(new FileReader(path));
+		return br.readLine();
+	}
 
-        log.info("Created customer {}", customer);
+	public Customer create(String name, Long id, String email, Date created)
+	{
+		final Customer customer = Customer.builder().id(id).name(name).created(created).email(email).build();
 
-        return customer;
-    }
+		log.info("Created customer {}", customer);
 
-    @SneakyThrows
-    public void writeFile() {
-        new File("/tmp").createNewFile();
-    }
+		return customer;
+	}
 
-
-    static String readFirstLineFromFile(String path) throws IOException {
-        @Cleanup BufferedReader br = new BufferedReader(new FileReader(path));
-        return br.readLine();
-    }
+	@SneakyThrows
+	public void writeFile()
+	{
+		new File("/tmp").createNewFile();
+	}
 }

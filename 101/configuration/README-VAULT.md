@@ -6,7 +6,7 @@
 - Open a (WSL) terminal and navigate to the root of the springbootcourse folder.
 - In the root of the springbootcourse project, there is a `docker.compose.yml` file.
 - Run the command `docker-compose up vault mysql` to start the vault service and the mysql.
-- Open a browser on `http://localhost:8200`. 
+- Open a browser on `http://localhost:8200`.
 - Use `myroot` as token to login.
 
 ### Create secrets for MySql in Vault.
@@ -23,7 +23,7 @@
 
 ### Create a new Springboot project with `jdbc` and `vault`
 
-- Add the following configuration: 
+- Add the following configuration:
 
 ```properties
 spring.cloud.vault.token=myroot
@@ -48,6 +48,7 @@ create database demodb;
 create user 'demo' identified by 'demo';
 grant all on demodb.* to 'demo'@'%';
 ```
+
 - In the browser for Vault navigate to `secret` and create a new demo secret with the path `mysql/demo`:
 
 ```json

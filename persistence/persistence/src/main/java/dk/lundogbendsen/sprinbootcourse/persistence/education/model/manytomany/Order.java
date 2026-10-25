@@ -10,10 +10,11 @@ import java.util.Set;
 @Getter
 @Setter
 @Table(name = "orders")
-public class Order {
-    @Id
-    @GeneratedValue
-    private Long id;
-    @ManyToMany
-    Set<OrderItem> orderItems;
+public class Order
+{
+	@ManyToMany
+	Set<OrderItem> orderItems;
+	@Id
+	@GeneratedValue
+	private Long id;
 }

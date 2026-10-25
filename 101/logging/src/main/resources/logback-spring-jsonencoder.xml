@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <!-- Reference to the Springboot configuration   -->
-    <property resource="application.properties" />
+    <property resource="application.properties"/>
     <!-- Pull out the application name from the Springboot configuration -->
     <contextName>${spring.application.name}</contextName>
     <appender name="Console"
@@ -50,4 +50,4 @@
         <appender-ref ref="Console"/>
     </root>
 
- </configuration>
+</configuration>

@@ -10,41 +10,51 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/example")
-public class ExampleController {
+public class ExampleController
+{
 
-    @GetMapping
-    public Object list() {
-        return List.of(Map.of("name", "Christian", "age", 47));
-    }
+	@GetMapping
+	public Object list()
+	{
+		return List.of(Map.of("name", "Christian", "age", 47));
+	}
 
-    @GetMapping("throws/{exceptionType}")
-    public Object throwing(@PathVariable String exceptionType) throws Exception {
-        if (exceptionType.equals("clientSideError")) {
-            throw new UnsupportedMediaTypeStatusException("client side error");
-        } else if (exceptionType.equals("internalServerError")) {
-            throw new RuntimeException("internal server error");
-        }
-        return "Exception";
-    }
+	@GetMapping("throws/{exceptionType}")
+	public Object throwing(@PathVariable String exceptionType) throws Exception
+	{
+		if(exceptionType.equals("clientSideError"))
+		{
+			throw new UnsupportedMediaTypeStatusException("client side error");
+		}
+		else if(exceptionType.equals("internalServerError"))
+		{
+			throw new RuntimeException("internal server error");
+		}
+		return "Exception";
+	}
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestParam String name, @RequestParam Long age) {
+	@PostMapping
+	@ResponseStatus(HttpStatus.CREATED)
+	public void create(@RequestParam String name, @RequestParam Long age)
+	{
 
-    }
+	}
 
-    @PostMapping("pojo")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Person createByPojo(@RequestBody Person person) {
-        return person;
-    }
+	@PostMapping("pojo")
+	@ResponseStatus(HttpStatus.CREATED)
+	public Person createByPojo(@RequestBody Person person)
+	{
+		return person;
+	}
 
-    @GetMapping("/headers")
-    public ResponseEntity list(@RequestHeader String apiToken) {
-        if (apiToken == null || !apiToken.equals("123")) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-        return ResponseEntity.status(HttpStatus.OK).build();
-    }
+	@GetMapping("/headers")
+	public ResponseEntity list(@RequestHeader String apiToken)
+	{
+		if(apiToken == null || !apiToken.equals("123"))
+		{
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		}
+		return ResponseEntity.status(HttpStatus.OK).build();
+	}
 
 }
