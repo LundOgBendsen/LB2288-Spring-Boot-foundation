@@ -23,7 +23,7 @@ public class WebClientTest
 				.accept(MediaType.APPLICATION_JSON)
 				.retrieve()
 				.bodyToMono(JsonNode.class)
-				.map(jokeResponse -> jokeResponse.get("value").get("joke").asText())
+				.map(jokeResponse -> jokeResponse.get("value").get("joke").asString())
 				.block(Duration.ofSeconds(2));
 
 		System.out.println("joke = " + joke);

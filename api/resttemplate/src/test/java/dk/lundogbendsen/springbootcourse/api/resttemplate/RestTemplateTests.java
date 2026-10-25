@@ -221,7 +221,7 @@ class RestTemplateTests
 	{
 		final String jokesUrl = "http://api.icndb.com/jokes/random?firstName={firstName}&lastName={lastName}";
 		final JsonNode forObject = restTemplate.getForObject(jokesUrl, JsonNode.class, "chuck", "norris");
-		System.out.println("forObject.get(\"value\").get(\"joke\").asText() = " + forObject.get("value").get("joke").asText());
+		System.out.println("forObject.get(\"value\").get(\"joke\").asString() = " + forObject.get("value").get("joke").asString());
 
 	}
 
