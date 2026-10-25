@@ -2,220 +2,166 @@
 
 ## Exercises
 
-We are going to turn an existing project into a SpringBoot starter project.
+In these exercises you build a Spring Boot starter for the person-service library.
 
-The starting point of a starter will be an empty maven project. Step by step we enhance this project and end up with
-your very own spring-boot-starter for the person-service project.
+The library already lives in this course repository: [person-service-lib](../../person-service-lib). You will:
 
-A prerequisite is to get the person-service from github and build it.
+1. Install `person-service-lib` into your local Maven repository.
+2. Create a **new empty Java Maven project** that becomes the starter.
+3. Add dependencies, a configuration class, and auto-configuration.
+4. Install the starter and try it in a small Spring Boot application.
 
-### Exercise 1: Get and build person-service.
+If you get stuck, see [SOLUTIONS.md](SOLUTIONS.md).
 
-You need to get the person-service downloaded to your PC, and then build it.
+Maven terms used below:
 
-Alternative 1 - using the Terminal
+- **Coordinates** (`groupId`, `artifactId`, `version`) uniquely identify a library, like a name and version on a package.
+- **`mvn install`** compiles the project and copies the result into your **local Maven repository** (`~/.m2/repository` on your machine). Other projects on the same computer can then depend on it.
 
-This alternative requires maven to be installed on your PC.
+---
 
-- Use a terminal to clone the github repo: https://github.com/cvwjensen/person-service.git
-- cd in to the project folder and execute `mvn install`.
+### Exercise 1: Build and install person-service-lib
 
-Alternative 2 - using the IDE
+Maven can only use `person-service-lib` after it is installed locally.
 
-- Use your IDE to create a new project from VCS and pass the repo
-  address https://github.com/cvwjensen/person-service.git.
-- Use the IDE to execute the maven Install command on the project.
+1. Open the [person-service-lib project](../../person-service-lib).
+2. In a terminal at the **course repository root**, run:
 
-### Exercise 2: Create a maven project
-
-With the person-service installed in your local maven repo, it is time to create the actual project that will become the
-starter for person-service.
-
-Use your IDE to create a maven project using your latest JDK.
-
-This gives you a completely empty project with no java files, no tests and no dependencies - but it is a
-maven project, and we are ready to rock.
-
-### Exercise 3: Add dependencies to project
-
-In this step we add 2 dependencies. One for Spring and one for Person-Service. The
-
-- Include the dependency for spring-boot-starter
-    - hint: copy the dependency from an existing SpringBoot project in the springbootcourse repo.
-
-In this dependency we get Spring core modules along with all the @ConditionalNNN annotations required for creating
-SpringBoot starters.
-
-- Include the dependency for person-service
-
-The person-service maven coordinates are:
-
-```
-    <groupId>org.example</groupId>
-    <artifactId>person-service</artifactId>
-    <version>1.0-SNAPSHOT</version>
+```text
+cd person-service-lib
+mvn install
 ```
 
-#### Solution
-
-Content of the `pom.xml`:
+You should see `BUILD SUCCESS`. After that, the library is available as:
 
 ```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-
-  <groupId>org.example</groupId>
-  <artifactId>person-service-starter</artifactId>
-  <version>1.0-SNAPSHOT</version>
-
-  <dependencies>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter</artifactId>
-      <version>3.3.13</version>
-    </dependency>
-    <dependency>
-      <groupId>org.example</groupId>
-      <artifactId>person-service</artifactId>
-      <version>1.0-SNAPSHOT</version>
-      <optional>true</optional>
-    </dependency>
-
-  </dependencies>
-</project>
+<groupId>dk.lundogbendsen</groupId>
+<artifactId>person-service-lib</artifactId>
+<version>1.0</version>
 ```
 
-### Exercise 4: Add Configuration class to produce Spring Bean of Person-Service
+---
 
-With the project foundation in place, it is time to do some actual coding. We should now create a class with the
-@Configuration annotation on top and with a method that returns a new instance of PersonService.
+### Exercise 2: Create a Java Maven project
 
-- Create a class PersonServiceConfiguration in the package `org.example.personservicestarter`, and annotate it with
-  `@Configuration`.
-- Add a method that produces a Spring Bean of Person Service
-    - Hint: use @Bean annotation.
+This step creates the **starter project itself**. It must be a **Java project based on Maven** (not Gradle, not a Spring Initializr app yet).
 
-#### Solution
+1. In your IDE, create a **new Java Maven project**.
+2. Use **JDK 25**.
+3. Set the Maven coordinates to match the later exercises:
 
+   - `groupId`: `org.example`
+   - `artifactId`: `person-service-starter`
+   - `version`: `1.0-SNAPSHOT`
+
+You now have an empty Maven project: a `pom.xml`, no Java sources, no tests, no extra dependencies. That is expected.
+
+---
+
+### Exercise 3: Add dependencies
+
+Open `pom.xml` and add **two** dependencies.
+
+**1. `spring-boot-starter`**
+
+This brings in Spring and the `@Conditional…` annotations used later.
+
+Hint: copy the `spring-boot-starter` dependency from another Spring Boot module in this repository. Use version `4.1.2` if you type it by hand.
+
+**2. `person-service-lib`**
+
+```xml
+<dependency>
+    <groupId>dk.lundogbendsen</groupId>
+    <artifactId>person-service-lib</artifactId>
+    <version>1.0</version>
+    <!-- optional: true means this library is *not* passed on to applications
+         that only depend on the starter. They must add person-service-lib
+         themselves. That is normal for Spring Boot starters: the starter
+         wires beans; the application chooses the library version. -->
+    <optional>true</optional>
+</dependency>
 ```
 
-@Configuration
-public class PersonServiceConfiguration {
-    @Bean
-    public PersonService personService() {
-        return new PersonService();
-    }
-}
-```
+Without `<optional>true</optional>`, every project that depends on the starter would also get `person-service-lib` automatically. Making it optional keeps the starter as “wiring only”.
+
+---
+
+### Exercise 4: Create a configuration class that exposes PersonService
+
+Create a Spring configuration class that defines a `PersonService` bean.
+
+1. Create package `org.example.personservicestarter`.
+2. Create class `PersonServiceConfiguration`.
+3. Annotate the class with `@Configuration`.
+4. Add a method annotated with `@Bean` that returns `new PersonService()`.
+
+---
 
 ### Exercise 5: Make bean creation conditional
 
-Spring-Boot is all about being a good citizen, and that means to back off gracefully if required.
-If the code is used as it stands, it WILL produce a PersonService if included and the client have no option
-to create it itself. Therefore - in the spirit of Spring-Boot, we will add some conditions on the bean creation
-to give the client a chance of taking control.
+A well-behaved starter only creates a bean when it is needed, and it does not override a bean the application already defined.
 
-- On the class level add a @ConditionalOnClass (PersonService.class)
-- On the method level add a @ConditionalOnMissingBean (PersonService.class)
+On `PersonServiceConfiguration`:
 
-In this way a bean is only created IF a) the PersonService is actually on the classpath and b) the client did not
-create one.
+- Class: `@ConditionalOnClass(PersonService.class)` — only if `PersonService` is on the classpath.
+- Bean method: `@ConditionalOnMissingBean(PersonService.class)` — only if the application did not already define a `PersonService` bean.
 
-#### Solution
+---
 
-```
+### Exercise 6: Register the auto-configuration
 
-@Configuration
-@ConditionalOnClass(PersonService.class)
-public class PersonServiceConfiguration {
+Spring Boot 4 reads a file named:
 
-    @Bean
-    @ConditionalOnMissingBean(PersonService.class)
-    public PersonService personService() {
-        return new PersonService();
-    }
-}
-```
+`src/main/resources/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports`
 
-### Exercise 6: The spring.factories files
+1. Create that folder and file (the file name is long and must match exactly).
+2. Ensure that the folder structure is preserved!!!
+3. Put this single line in the file:
 
-The last element of a Spring-Boot starter is the file spring.factories. This file is processed by SpringBoot
-AutoConfiguration
-and will include the beans declared there in any client project.
-
-- create a new file in the folder `src/main/resources/META-INF/spring/` called
-  `org.springframework.boot.autoconfigure.AutoConfiguration.imports`
-- Add a line with a fully qualified name reference to your PersonServiceConfiguration, e.g.:
-  `org.example.personservicestarter.PersonServiceConfiguration`
-
-#### Solution
-
-Content of `src/main/resources/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports`:
-
-```
+```text
 org.example.personservicestarter.PersonServiceConfiguration
 ```
 
-### Exercise 7: Build and install the project
+That is the fully qualified class name of your configuration class.
 
-Use maven to build and install the person-service-starter project using either the terminal or the IDE
+---
 
-This will install the project in your local maven repo, and it is ready to be used in other projects.
-It has the following maven coordinates:
+### Exercise 7: Build and install the starter
 
-```
-    <groupId>org.example</groupId>
-    <artifactId>person-service-starter</artifactId>
-    <version>1.0-SNAPSHOT</version>
-```
+Pick **one** of these two options.
 
-This coordinates can be used in other projects to include the starter.
+**Option 1 — from course repository root**
 
-#### Solution
-
-```
-cd into person-service-starter project.
-execute `mvn install`
+```text
+cd 101/person-service-starter
+mvn install
 ```
 
-### Exercise 8: Try out the starter in a new SpringBoot project
+**Option 2 — if you are already in project**
 
-Now you are done creating the starter - it is time to test it in a real project.
-
-- Create a Naked SpringBoot project.
-- Add a dependency to the person-service-starter using the maven coordinate from previous exercise.
-- Add a dependency to the person-service (it is NOT included in the person-service-starter)
-- Extract the PersonService bean and test it.
-
-#### Solution
-
-```java
-package com.example.demo;
-
-@SpringBootApplication
-public class Demo1Application {
-    public static void main(String[] args) {
-        final ConfigurableApplicationContext context = SpringApplication.run(Demo1Application.class, args);
-        final PersonService personService = context.getBean(PersonService.class);
-        System.out.println("personService.list() = " + personService.list());
-    }
-}
+```text
+mvn install
 ```
 
-pom.xml - add these two dependencies
+You should see `BUILD SUCCESS`. After that, other projects can depend on:
 
 ```xml
-        <dependency>
-            <groupId>org.example</groupId>
-            <artifactId>person-service</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.example</groupId>
-            <artifactId>person-service-starter</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
+<groupId>org.example</groupId>
+<artifactId>person-service-starter</artifactId>
+<version>1.0-SNAPSHOT</version>
 ```
+
+These coordinates are for the **starter**, not for `person-service-lib`.
+
+---
+
+### Exercise 8: Try the starter in a new Spring Boot project
+
+1. Create a **new** Spring Boot application (Initializr / “naked” Boot project is fine).
+2. In that application’s `pom.xml`, add **both**:
+   - the starter coordinates from exercise 7
+   - [person-service-lib](../../person-service-lib) (`dk.lundogbendsen:person-service-lib:1.0`)
+
+   You need both because the starter marked the library as **optional**.
+3. In `main`, get the `PersonService` bean from the application context and call `list()` (or similar) to confirm it works.
