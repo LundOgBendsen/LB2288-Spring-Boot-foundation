@@ -54,7 +54,7 @@ using.
 
 - Open the pom.xml.
 - Use Intellij to navigate to the Parent pom.
-- From here navigate to the parent's Parent pom.
+  - This is done by right-clicking on the pom.xml and selecting "Maven" → "Show effective POM".
 - Here you'll find a lot of XML snippets in the structure:
 
 ```
@@ -73,35 +73,22 @@ using.
 
 ### Exercise 7 - Auto configuration
 
-Auto configuration kicks in, when Spring detects the @EnableAutoConfiguration annotation.
-The annotation enable auto-configuration of the Spring Application Context, attempting to guess and configure beans that
-you are likely to need. Auto-configuration classes are usually applied based on your classpath and what beans you have
-defined.
+`@SpringBootApplication` includes `@EnableAutoConfiguration`. During startup, Spring Boot uses this to discover
+auto-configuration classes and apply the ones whose conditions match the application, such as classes available on the
+classpath and beans that have already been defined.
 
-For SpringBoot < 2.7.0:
+This course uses Spring Boot 4 and Spring Framework 7. In Spring Boot 3 and later, auto-configuration
+class names are listed in `META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports` in the
+`spring-boot-autoconfigure` dependency. The older `spring.factories` mechanism was used before Spring Boot 3.
 
-- Open the `META-INF/spring.factories` of the `spring-boot-autoconfigure` dependency (Ctrl + Shift + N) (You may have to
-  press the combination twice to extend the search into dependencies)
-- Find the `# Auto Configure` section (around line 20).
-- Here is a key called `org.springframework.boot.autoconfigure.EnableAutoConfiguration` with a multi-line value which
-  becomes to input list to the `AutoConfigurationImportSelector`.
-
-For SpringBoot >= 2.7.0:
-
-The list of configurations to load have been extracted and isolated into its own file, and the loading mechanisms have
-been refactored.
-
-- Open the `META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports` of the
-  `spring-boot-autoconfigure` dependency (Ctrl + Shift + N) (You may have to press the combination twice to extend the
-  search into dependencies)
-
-_AutoConfigurationImportSelector_
-
-- The `AutoConfigurationImportSelector` contains the logic for loading the auto-configuration classes referenced in the
-  list of references loaded from either `META-INF/spring.factories` or
-  `META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports`.
-- Find and open one of the auto-configuration classes `MongoAutoConfiguration`.
-- This is how Springboot sets up mongo for you, if you include the
+1. Open `META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports` in the
+   `spring-boot-autoconfigure` dependency. Use **Navigate | File** (`Ctrl + Shift + N`) and, if needed, search again
+   with dependency files included.
+2. Find `MongoAutoConfiguration` in the list and open the class.
+3. Look at its `@AutoConfiguration` and `@ConditionalOn...` annotations. Consider what each condition checks and why
+   auto-configuration should back off when the application has already supplied a bean.
+4. Find the MongoDB starter in the dependency list below. How does adding it make the MongoDB classes available for
+   auto-configuration?
 
 ```
 <dependency>
@@ -110,46 +97,7 @@ _AutoConfigurationImportSelector_
 </dependency>
 ```
 
-- Below is the content of `MongoAutoConfiguration`:
-
-```
-@AutoConfiguration
-@ConditionalOnClass(MongoClient.class)
-@EnableConfigurationProperties(MongoProperties.class)
-@ConditionalOnMissingBean(type = "org.springframework.data.mongodb.MongoDatabaseFactory")
-public class MongoAutoConfiguration {
-
-	@Bean
-	@ConditionalOnMissingBean(MongoClient.class)
-	public MongoClient mongo(ObjectProvider<MongoClientSettingsBuilderCustomizer> builderCustomizers,
-			MongoClientSettings settings) {
-		return new MongoClientFactory(builderCustomizers.orderedStream().collect(Collectors.toList()))
-				.createMongoClient(settings);
-	}
-
-	@Configuration(proxyBeanMethods = false)
-	@ConditionalOnMissingBean(MongoClientSettings.class)
-	static class MongoClientSettingsConfiguration {
-
-		@Bean
-		MongoClientSettings mongoClientSettings() {
-			return MongoClientSettings.builder().build();
-		}
-
-		@Bean
-		MongoPropertiesClientSettingsBuilderCustomizer mongoPropertiesCustomizer(MongoProperties properties,
-				Environment environment) {
-			return new MongoPropertiesClientSettingsBuilderCustomizer(properties, environment);
-		}
-
-	}
-
-}
-```
-
-- It is an example of how the @ConditionalNNN annotations work. In this case the @Beans will be setup if the class
-  `MongoClient` is present on the classpath of the application.
-- The MongoClient is part of the `spring-boot-starter-data-mongodb`, so that is why Mongo is working out of the box,
-  just by adding the starter.
-
-**This is how starters work all over!**
+MongoDB is an example of the general pattern: a starter brings relevant libraries onto the classpath, and conditional
+auto-configuration creates default beans when its requirements are met. If you define a bean yourself, a
+`@ConditionalOnMissingBean` condition can let your bean take precedence. The exact implementation can change between
+Spring Boot versions.
