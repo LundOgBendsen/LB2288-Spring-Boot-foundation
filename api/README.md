@@ -50,7 +50,7 @@ Model representing the Json and Springboot will make a Pojo with the input.
 - Annotate the method with @PostMapping to instruct Spring to map the POST verb.
 - Annotate the person parameter with @RequestBody to instruct Spring to convert the request body to a Person object
 - Restart the app.
-- Run `curl -H "content-type: application/json" localhost:8080 -d '{"firstName":"Christian","lastName":"Jensen"}'`.
+- Run `curl -H "content-type: application/json" localhost:8080 -d "{\"firstName\":\"Christian\",\"lastName\":\"Jensen\"}"`.
 
 ### Exercise 5: Upload file
 
@@ -146,7 +146,7 @@ Since you have added the XML capable converter as a dependency in the previous e
 well:
 
 - Run
-  `curl -H "content-type: application/xml" localhost:8080 -d '<Person><firstName>Christian</firstName><lastName>Jensen</lastName></Person>'`
+  `curl -H "content-type: application/xml" localhost:8080 -d "<Person><firstName>Christian</firstName><lastName>Jensen</lastName></Person>"`
 
 ## Exercises - Section 2: Exception Handling
 
