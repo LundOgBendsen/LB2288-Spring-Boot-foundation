@@ -19,23 +19,6 @@ The JPQL is very similar to SQL. You can use joins to query on relations. This w
 - Let is also accept a Pageable in order to paginate and sort the result.
 - Make a test that uses the new method in the same way as previous exercise (#4).
 
-#### Solution
-
-```java
-    @Query("select c from Course c inner join c.students s where c.points between ?1 and ?2 and s=?3 and c.teacher=?4")
-    List<Course> listCourses(Integer start, Integer end, Student student, Teacher teacher, Pageable pageable);
-```
-
-```java
-    @Test
-    public void listCoursesWithPointsBetween_AndStudent_AndTeacher_AndPagination() {
-        Student studentAnna = studentRepository.findById(anna.getId()).get();
-        Teacher teacherSmith = teacherRepository.getOne(smith.getId());
-        final List<Course> coursesByPointsBetween = courseRepository.listCourses(5, 12, studentAnna, teacherSmith, PageRequest.of(0,1, Sort.by("subject").ascending()));
-        assertEquals(1, coursesByPointsBetween.size());
-    }
-```
-
 ### Exercise 2: Using attributes of related Entities
 
 The @Query lets you make queries on related Entitites attributes - as opposed to Property Expressions that only lets you
@@ -53,20 +36,4 @@ Pageable to support the sort direction thereby letting you find top students or 
 - Use a Pageable that takes out page 0, page size 10 and sorts by points descending.
 - Assert that the Students in the list are ordered by how many points they are "worth".
 
-#### Solution
-
-```java
-    @Query("select s, sum(c.points) as points from Student s inner join s.courses c group by s")
-    List<Student> findTopStudents(Pageable pageable);
-```
-
-```java
-    @Test
-    public void findTopStudent_ByCoursePoints() {
-        List<Student> students = studentRepository.findTopStudents(PageRequest.of(0, 10, Sort.by("points").descending()));
-        assertEquals(30, students.get(0).getCourses().stream().mapToInt(Course::getPoints).sum());
-        assertEquals(25, students.get(1).getCourses().stream().mapToInt(Course::getPoints).sum());
-        assertEquals(20, students.get(2).getCourses().stream().mapToInt(Course::getPoints).sum());
-        assertEquals(15, students.get(3).getCourses().stream().mapToInt(Course::getPoints).sum());
-    }
-```
+Solutions for these exercises are in [SOLUTIONS-04-custom-queries.md](SOLUTIONS-04-custom-queries.md).
