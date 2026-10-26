@@ -46,9 +46,10 @@ You should see `BUILD SUCCESS`. After that, the library is available as:
 
 This step creates the **starter project itself**. It must be a **Java project based on Maven** (not Gradle, not a Spring Initializr app yet).
 
-1. In your IDE, create a **new Java Maven project**.
-2. Use **JDK 25**.
-3. Set the Maven coordinates to match the later exercises:
+1. In your IDE, create a **new Java project** (not maven arc-type, and not spring boot project)
+2. Verify that the project is a **Java project** with maven as build system.
+3. Use **JDK 25**.
+4. Set the Maven coordinates to match the later exercises:
 
    - `groupId`: `org.example`
    - `artifactId`: `person-service-starter`
@@ -66,7 +67,9 @@ Open `pom.xml` and add **two** dependencies.
 
 This brings in Spring and the `@Conditional…` annotations used later.
 
-Hint: copy the `spring-boot-starter` dependency from another Spring Boot module in this repository. Use version `4.1.2` if you type it by hand.
+Hint: copy the `spring-boot-starter` dependency from another Spring Boot module in this repository.
+
+NB: Use version `4.1.2` if you type it by hand or copy it from another project.
 
 **2. `person-service-lib`**
 

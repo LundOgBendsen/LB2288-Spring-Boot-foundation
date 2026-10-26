@@ -4,7 +4,7 @@
 
 Solutions are available in [SOLUTIONS.md](SOLUTIONS.md).
 
-### Exercise 1 - investigate the Spring Context
+### SECTION 1 - Exercise 1 - investigate the Spring Context
 
 - Create a naked Springboot application called SpringPrimer.
 - Outcomment the @SpringBootApplication annotation.
@@ -13,19 +13,19 @@ Solutions are available in [SOLUTIONS.md](SOLUTIONS.md).
 - Debug the application (Shift + F9) and use the context to inspect the beans - how many beans are there, and what kinds
   are they?
 
-### Exercise 2 - Make a Bean with the @Bean-option, aka "Java Configuration"
+### SECTION 1 - Exercise 2 - Make a Bean with the @Bean-option, aka "Java Configuration"
 
 - Create a class TextUpperCaser class that have a method that takes a String and returns the String UPPERCASED.
 - Register TextUpperCaser as a SpringBean using the @Bean option.
 - Retrieve the TextUpperCaser bean and use it.
 
-### Exercise 3 - Make a Bean with the @Service option, aka "Annotation Configuration"
+### SECTION 1 - Exercise 3 - Make a Bean with the @Service option, aka "Annotation Configuration"
 
 - Modify the TextUpperCaser to be a @Service.
 - Add @ComponentScan to the SpringPrimerApplication class.
 - Retrieve the TextUpperCaser bean and use it.
 
-### Exercise 4 - Wiring using Option 1 (@Autowired)
+### SECTION 1 - Exercise 4 - Wiring using Option 1 (@Autowired)
 
 - Create two classes, ServiceA and ServiceB, both without any methods.
 - Make both of them Beans by using one of the previous methods.
@@ -36,7 +36,7 @@ Solutions are available in [SOLUTIONS.md](SOLUTIONS.md).
 - Run the application in debug mode.
 - Inspect the ServiceA handle and see if the ServiceB field has been injected.
 
-### Exercise 5 - Wiring using Option 2 (Constructor injection)
+### SECTION 1 - Exercise 5 - Wiring using Option 2 (Constructor injection)
 
 - Create two classes, ServiceA and ServiceB, both without any methods.
 - Make both of them Beans by using one of the previous methods.
@@ -47,7 +47,9 @@ Solutions are available in [SOLUTIONS.md](SOLUTIONS.md).
 - Run the application in debug mode.
 - Inspect the ServiceA handle and see if the ServiceB field has been injected.
 
-### Exercise 6 - Curated list of dependencies - find the version of a dependency
+
+**NB: below is section 2. Did the slides ask you to do this exercise?**
+### SECTION 2 - Exercise 6 - Curated list of dependencies - find the version of a dependency
 
 In this exercise, you'll inspect the list for dependencies to find out exactly with the version of Spring Core we are
 using.
@@ -71,7 +73,7 @@ using.
 - Search for "rabbit".
 - ?What is the version of the RabbitMQ client?
 
-### Exercise 7 - Auto configuration
+### SECTION 2 - Exercise 7 - Auto configuration
 
 `@SpringBootApplication` includes `@EnableAutoConfiguration`. During startup, Spring Boot uses this to discover
 auto-configuration classes and apply the ones whose conditions match the application, such as classes available on the
