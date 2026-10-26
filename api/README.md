@@ -9,7 +9,7 @@ want to.
 
 ### Exercise 1: Create a RestController
 
-- Create a Springboot Web MVC project
+- Create a Spring Boot Web MVC project
 - Create a class MyRestController
 - Annotate the class with @RestController. This instructs Spring to register the class as a request handler.
 - Create a method `public String helloWorld()` returning a String with content "HelloWorld".
@@ -42,8 +42,8 @@ You can map a method parameter to some part of the request path using the @PathV
 
 ### Exercise 4: Map input to POJO
 
-You can have Springboot convert the request body to a Pojo. For instance is the client is sending Json, you could make a
-Model representing the Json and Springboot will make a Pojo with the input.
+You can have Spring Boot convert the request body to a Pojo. For instance is the client is sending Json, you could make a
+Model representing the Json and Spring Boot will make a Pojo with the input.
 
 - Make a class Person with fields firstName and lastName. Add setters and getters (Hint: Lombok).
 - Make a method `public void receivePerson(Person person)` in the RestController from exercise 2.
@@ -150,26 +150,26 @@ well:
 
 ## Exercises - Section 2: Exception Handling
 
-When exceptions happens, Springboot gives you some basic handling out of the box.
+When exceptions happens, Spring Boot gives you some basic handling out of the box.
 
-If errors are client side, it has a variety of handlers that produce meaningful error reponses for that. All other
+If errors are client side, it has a variety of handlers that produce meaningful error responses for that. All other
 errors result in a 500 error.
 
-As always Springboot lets you take complete control by adding up some ExceptionHandlers. You can control exceptions
+As always Spring Boot lets you take complete control by adding up some ExceptionHandlers. You can control exceptions
 directly in the controller using the @ExceptionHandler annotation, or you can create a @RestControllerAdvice that
 handles exceptions across many controllers.
 
 The latter approach is recommended.
 
-Use the project *springbootcourse/api/person-service-api* as a starting point for the following exercises.
+Use the project *api/person-service-api* as a starting point for the following exercises.
 
-### Exercise 0: make springbootcourse/api/person-service-api project work
+### Exercise 0: make api/person-service-api project work
 
 The api project requires a PersonService which is currently not on the classpath.
 
 But you made a person-service-starter in one of the previous exercises, and now it is time to use it.
 
-Update the pom.xml to include the person-starter-demo as a dependency.
+Update the pom.xml to include the person-service-starter as a dependency.
 
 The `api/person-service-api/src/main/java/dk/lundogbendsen/restassignmentapi/controllers/PersonController.java` is a
 controller that uses a PersonService to create, update and delete persons.
@@ -189,7 +189,7 @@ error. We want to show a nice error message with status code 400 and a descripti
 - It must be annotated with ResponseStatus returning a 400 status code.
 - It must be annotated with @ExceptionHandler
 - Restart the application.
-- In Postman create a person where you add an ID to the body of the request.
+- Using your preferred tool create a person (POST) where you "accidentally" add an id to the body of the request.
 
 ### Exercise 2: ExceptionHandlers in ControllerAdvices
 
@@ -199,23 +199,23 @@ In this exercise we will make a class for handling exceptions.
 - Annotate it with @RestControllerAdvice
 - Define a method public String handleServiceExceptions (Exception e)
 - Annotate with @ExceptionHandler that handles all 3 Exceptions in the
-  `dk.lundogbendsen.springbootcourse.api.personservice.service.exceptions` package
+  `dk.lundogbendsen.personservice.service.exceptions.PersonCreateException` package from the person-service-lib
 - Delete the ExceptionHandler made in exercise 1.
 - Restart the application.
-- In Postman create a person where you add an ID to the body of the request.
+- Using your preferred tool create a person (POST) where you "accidentally" add an id to the body of the request.
 
 ### Exercise 3: Exceptions extending ResponseStatusException
 
-In this exercise you'll handle the create exception directly in the api controller by catching it in a try/catch and
-throw a new exception extinding the ResponseStatusException.
+In this exercise you'll handle the create-exception directly in the api controller by catching it in a try/catch and
+throw a new exception extending the ResponseStatusException.
 
-- Make a copy of the create () method and call it create2 (). Also update the PostMapping to map /create2.
+- Make a copy of the create method and call it create2. Also update the PostMapping to map /create2.
 - The new method must catch the expected PersonCreateException and instead throw a new ResponseStatusException:
-    - Status code = 404
-    - Message = Person not Found.
+    - Status code = 400
+    - Message = Malformed request body.
     - exception included.
 - Restart the application.
-- In Postman create a person where you add an ID to the body of the request and call the new method (create2).
+- Using your preferred tool create a person (POST) where you "accidentally" add an id to the body of the request and call the new method (create2).
 
 ### Exercise 4: Make your own ErrorController
 
@@ -247,9 +247,9 @@ final Map<String, Object> errorAttributes = defaultErrorAttributes.getErrorAttri
 - Return a Map with the message from the "error" key in the errorAttributes. This is where the BasicErrorController
   normally would create its WhiteLabel Error.
 
-## Exercises section 3: Filters and Intercepters
+## Exercises section 3: Filters and Interceptors
 
-Use the project *springbootcourse/api/person-service-api* as a starting point for the following exercises.
+Use the project *api/person-service-api* as a starting point for the following exercises.
 
 ### Exercise 1: Security Filter
 
@@ -272,20 +272,19 @@ This should result in a whitelabelled 401 response.
 
 Now you should see the list of persons.
 
-### Exercise 2: Make security in an Intercepter
+### Exercise 2: Make security in an Interceptor
 
-We will now make the same security check by using an Intercepter.
+We will now make the same security check by using an Interceptor.
 
 - Outcomment the @Bean that registers the Filter from exercise 1.
 
 - Make a new UnauthorizedException class extending the ResponseStatusException that call super with
   `super(HttpStatus.UNAUTHORIZED, "The request requires an ApiToken")`.
-- Make a new class SecurityIntercepter that implements HandlerInterceptor.
+- Make a new class SecurityInterceptor that implements HandlerInterceptor.
 - Override the preHandle method.
-- If there is no apiToken header, then throw a new UnauthorizedException.
-- Otherwise return true.
-- Make a new class IntercepterConfig that implements WebMvcConfigurer. The new class should be annotated @Component.
-- Implement the addInterceptors () method and add your new SecurityIntercepter.
+- If there is no apiToken header, then throw a new UnauthorizedException, otherwise return true.
+- Make a new class InterceptorConfig that implements WebMvcConfigurer. The new class should be annotated @Component.
+- Implement the addInterceptors () method and add your new SecurityInterceptor.
 - Restart the application.
 - Run `curl localhost:8080/`
 

@@ -47,7 +47,7 @@ You should see `BUILD SUCCESS`. After that, the library is available as:
 This step creates the **starter project itself**. It must be a **Java project based on Maven** (not Gradle, not a Spring Initializr app yet).
 
 1. In your IDE, create a **new Java project** (not maven arc-type, and not spring boot project)
-2. Verify that the project is a **Java project** with maven as build system.
+2. Verify that the project is a **Java project** with maven as the build system.
 3. Use **JDK 25**.
 4. Set the Maven coordinates to match the later exercises:
 

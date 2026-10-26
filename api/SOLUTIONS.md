@@ -141,7 +141,7 @@ public String personCreateExceptionHandler(PersonCreateException e) {
 ```
 
 ```text
-curl 'localhost:8080' -d '{"name": "Jonathan","age": 16,"id": 1}' -H "Content-Type: application/json"
+curl 'localhost:8080' -X POST -d '{"name": "Jonathan","age": 16,"id": 1}' -H "Content-Type: application/json"
 ```
 
 ### Exercise 2: ExceptionHandlers in ControllerAdvices
@@ -167,7 +167,7 @@ public Person create2(@RequestBody Person person) {
     try {
         created = personService.create(person);
     } catch (PersonCreateException e) {
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Person not found", e);
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Malformed request body", e);
     }
     return created;
 }
@@ -190,7 +190,7 @@ public class MyErrorController implements ErrorController {
 }
 ```
 
-## Section 3: Filters and Intercepters
+## Section 3: Filters and Interceptors
 
 ### Exercise 1: Security Filter
 
@@ -227,7 +227,7 @@ public FilterRegistrationBean<SecurityFilter> filterRegistrationBean() {
 }
 ```
 
-### Exercise 2: Make security in an Intercepter
+### Exercise 2: Make security in an Interceptor
 
 ```java
 public class UnauthorizedException extends ResponseStatusException {
@@ -238,7 +238,7 @@ public class UnauthorizedException extends ResponseStatusException {
 ```
 
 ```java
-public class SecurityIntercepter implements HandlerInterceptor {
+public class SecurityInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         final String apiToken = request.getHeader("apiToken");
@@ -253,7 +253,7 @@ public class SecurityIntercepter implements HandlerInterceptor {
 
 ```java
 @Component
-public class IntercepterConfig implements WebMvcConfigurer {
+public class InterceptorConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new SecurityIntercepter());
