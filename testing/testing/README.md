@@ -2,22 +2,16 @@
 
 ## Exercises
 
-We will be using the URL Shortener service as our test-case
-
-If you don't have your own working version of the URL Shortener, you can use the solution here:
-
-**api/urlshortener**
+We will be using the url-shortner project as our test-case
 
 ### Exercise 1: Setup test suite
 
 In a maven project, the test suite is located in a folder structure that matches the test-target under the
-`src/main/test` folder.
+`src/test` folder.
 This folder is created for you if you make the project using Spring Initializr. And it includes 1 class that is an empty
 test class.
 
-- Ensure that the `src/main/test` exists (create it if it does not).
-- Delete any existing test cases.
-- Create a new class called UserServiceTests in the same package as the UserService (but under the test-folder
+- Create a new class called UserServiceTests in the same package as the UserService (BUT under the test-folder
   structure).
 - Add this import statement: `import static org.junit.jupiter.api.Assertions.*;`
 - Alternatively you can open the UserService class, right click and select "Generate..." -> "Test". This opens a Test
@@ -124,7 +118,7 @@ public void createNonUniqueUserTest() {
     }
 ```
 
-- ? When you run the test, why does it fail with a NullPointerException?
+- When you run the test, why does it fail with a NullPointerException?
 
 ### Exercise 5: Delete a user - With Mocks
 

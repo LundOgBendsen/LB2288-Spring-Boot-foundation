@@ -9,8 +9,8 @@ want to.
 
 ### Exercise 1: Create a RestController
 
-- Create a Spring Boot Web MVC project
-- Create a class MyRestController
+- Create a new Spring Boot project and Web MVC as dependency
+- Create a new class called MyRestController
 - Annotate the class with @RestController. This instructs Spring to register the class as a request handler.
 - Create a method `public String helloWorld()` returning a String with content "HelloWorld".
 - Annotate the method with @GetMapping. This instructs Spring that this controller handles GET requests without a path

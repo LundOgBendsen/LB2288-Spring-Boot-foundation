@@ -2,7 +2,7 @@
 
 This module demonstrates a complete, idiomatic example of using the **Spock Framework** (v2.4 on Groovy 4) with **Spring Boot 4 / Java** and **Maven** to test domain models, repositories, and business services.
 
-The tests in this module exercise the education domain classes from `persistence/persistence` (`dk.lundogbendsen.sprinbootcourse.persistence.education`):
+The tests in this module exercise the education domain classes from `../../persistence-` (`dk.lundogbendsen.sprinbootcourse.persistence.education`):
 - **Models**: `Student`, `Course`, `Teacher`, `AuditedEntity`, `StudentCourseCount`
 - **Repositories**: `StudentRepository`, `CourseRepository`, `TeacherRepository` (including custom implementation `TeacherRepositoryCustomImpl`)
 
