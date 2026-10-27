@@ -19,6 +19,14 @@ A Course has a subject, some points, a set of Students and a Teacher.
 A Teacher has a name and a set of Courses.
 
 - Create the 3 domain classes. Use Lombok annotations to define getters and setters etc.
+```
+//Lombok annotations
+@Getter <-- very important
+@Setter <-- very important
+@Builder <-- nice to have
+@NoArgsConstructor <-- very important
+@AllArgsConstructor <-- nice to have
+```
 
 ### Exercise 2: Upgrade the Domain model to an Entity model
 
@@ -33,7 +41,7 @@ A Teacher has a name and a set of Courses.
 
 - Make 3 repository interfaces named after the 3 entities extending the JpaRepository interface.
 
-### Exercise 4: Run the application and see the DDL generated
+### Exercise 4: Enable log of the DDL generated
 
 At this point we have an Entity Model, and we now would like to see what DDL is generated. Also notice that Hibernate
 understands dependencies between tables, and will drop tables "bottoms-up", and create them "top-down".
@@ -42,8 +50,6 @@ In order to see the SQL output, add this line to your application configuration:
 
 `spring.jpa.show-sql=true`
 
-Then run the application and inspect the logging. Notice how it starts out dropping any table if it exists. It cleans
-everything up and starts out fresh.
 This is very nice in the development phase on your local machine where you make a lot of changes. But when the Entity
 model starts stabilizing or when you deploy to a test/prod environment, you probably don't want the application to wipe
 the database on every start.
@@ -67,6 +73,7 @@ initialize the database.
 - Define the following entities:
 
 ```java
+    //Notice the use of the fluent builder().....build() pattern provided by the Lombok @Builder
     final Student josh = Student.builder().name("Josh").build();
     final Student jane = Student.builder().name("Jane").build();
     final Student tom = Student.builder().name("Tom").build();
