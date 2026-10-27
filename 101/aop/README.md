@@ -1,4 +1,15 @@
 # AOP
+## Spring AOP Advice Examples
+
+Examples for the 5 standard Spring AOP advice types are located under `dk.lundogbendsen.aop.examples`:
+
+- **Dummy Service**: `dk.lundogbendsen.aop.examples.DummyService` (shared target bean for all advice examples)
+- **`@Before`**: `dk.lundogbendsen.aop.examples.BeforeAdviceExample` (runs before target method execution)
+- **`@After`**: `dk.lundogbendsen.aop.examples.AfterAdviceExample` (runs after method execution completes regardless of outcome)
+- **`@AfterReturning`**: `dk.lundogbendsen.aop.examples.AfterReturningAdviceExample` (runs on successful completion and accesses return value)
+- **`@AfterThrowing`**: `dk.lundogbendsen.aop.examples.AfterThrowingAdviceExample` (runs when method throws an exception and accesses thrown error)
+- **`@Around`**: `dk.lundogbendsen.aop.examples.AroundAdviceExample` (surrounds target invocation, can measure timing, manage proceed, or alter results)
+
 
 ## Exercises
 
