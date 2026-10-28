@@ -98,13 +98,10 @@ public class TokenService {
         tokens.remove(theToken);
     }
 
-    public String resolveToken(String theToken, String protectToken) {
+    public String resolveToken(String theToken) {
         final Token token = tokens.get(theToken);
         if (token == null) {
             throw new TokenNotFoundException();
-        }
-        if (token.getProtectToken() != null && !token.getProtectToken().equals(protectToken)) {
-            throw new AccessDeniedException();
         }
 
         return token.getTargetUrl();
