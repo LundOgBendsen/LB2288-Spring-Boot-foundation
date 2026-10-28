@@ -255,3 +255,208 @@ class UserServiceTest {
     }
 }
 ```
+
+### Exercise 9: Standalone MockMvc Controller Testing with MockitoExtension
+
+In this exercise, we test the web layer (`UrlShortnerController`) in complete isolation without bootstrapping a Spring ApplicationContext.
+We use Mockito's `@ExtendWith(MockitoExtension.class)` alongside `@Mock` and `@InjectMocks`, and configure `MockMvc` using `MockMvcBuilders.standaloneSetup(...)`.
+
+- Create a new test class `UrlShortnerControllerStandaloneTest` under `src/test/java/dk/lundogbendsen/urlshortner/controller/` (or in your test package).
+- Annotate the test class with `@ExtendWith(MockitoExtension.class)`.
+- Declare `@Mock private UserService userService;` and `@Mock private TokenService tokenService;`.
+- Declare `@InjectMocks private UrlShortnerController urlShortnerController;`.
+- Declare a `private MockMvc mockMvc;` field.
+- In a `@BeforeEach` setup method, initialize `mockMvc` with `MockMvcBuilders.standaloneSetup(urlShortnerController).build()`.
+- Add a test method `getUserTest()` that:
+  - Mocks `userService.getUser("john")` to return a `User` (username="john", password="secret").
+  - Performs a GET request to `/api/users/john` with `contentType(MediaType.APPLICATION_JSON)`.
+  - Asserts that the HTTP status is `isOk()` (200), `jsonPath("$.username")` is `"john"`, and `jsonPath("$.password")` is `"secret"`.
+
+#### Solution
+
+```java
+package dk.lundogbendsen.urlshortner.controller;
+
+import dk.lundogbendsen.urlshortner.model.User;
+import dk.lundogbendsen.urlshortner.service.TokenService;
+import dk.lundogbendsen.urlshortner.service.UserService;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import static org.hamcrest.Matchers.is;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@ExtendWith(MockitoExtension.class)
+class UrlShortnerControllerStandaloneTest {
+
+    private MockMvc mockMvc;
+
+    @Mock
+    private UserService userService;
+
+    @Mock
+    private TokenService tokenService;
+
+    @InjectMocks
+    private UrlShortnerController urlShortnerController;
+
+    @BeforeEach
+    void setUp() {
+        mockMvc = MockMvcBuilders.standaloneSetup(urlShortnerController).build();
+    }
+
+    @Test
+    void getUserTest() throws Exception {
+        User user = User.builder().username("john").password("secret").build();
+        when(userService.getUser("john")).thenReturn(user);
+
+        mockMvc.perform(get("/api/users/john")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.username", is("john")))
+                .andExpect(jsonPath("$.password", is("secret")));
+    }
+}
+```
+
+### Exercise 10: Sliced Web MVC Testing with @WebMvcTest
+
+Spring Boot provides the `@WebMvcTest` slice annotation to test Spring MVC controllers by configuring only web-related beans (controllers, Jackson mappers, filters) without loading the entire application context.
+In this exercise, we will test `UrlShortnerController` using `@WebMvcTest` and mock its service dependencies with `@MockitoBean`.
+
+- Create a new test class `UrlShortnerControllerWebMvcTest` in the `controller` package under `src/test/java`.
+- Annotate the class with `@WebMvcTest(UrlShortnerController.class)`.
+- Inject `MockMvc` using `@Autowired private MockMvc mockMvc;`.
+- Declare mocked dependencies using `@MockitoBean private UserService userService;` and `@MockitoBean private TokenService tokenService;`.
+- Add a test method `resolveTokenTest()` that:
+  - Mocks `tokenService.resolveToken("my-token")` to return `"https://example.com"`.
+  - Performs a GET request to `/api/tokens/my-token`.
+  - Asserts that the HTTP status is `isOk()` (200) and the response body content is `"https://example.com"`.
+
+#### Solution
+
+```java
+package dk.lundogbendsen.urlshortner.controller;
+
+import dk.lundogbendsen.urlshortner.service.TokenService;
+import dk.lundogbendsen.urlshortner.service.UserService;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.web.servlet.MockMvc;
+
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@WebMvcTest(UrlShortnerController.class)
+class UrlShortnerControllerWebMvcTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockitoBean
+    private UserService userService;
+
+    @MockitoBean
+    private TokenService tokenService;
+
+    @Test
+    void resolveTokenTest() throws Exception {
+        when(tokenService.resolveToken("my-token")).thenReturn("https://example.com");
+
+        mockMvc.perform(get("/api/tokens/my-token"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("https://example.com"));
+    }
+}
+```
+
+### Exercise 11: Testing JSON Request Body (POST endpoints) with @WebMvcTest
+
+When building REST APIs, controllers frequently accept JSON payloads via `@RequestBody` and return newly created resources with HTTP 201 Created status.
+In this exercise, you will test POST endpoints using `MockMvc` and verify JSON serialization/deserialization.
+
+- In `UrlShortnerControllerWebMvcTest`, add a test method `createUserTest()`.
+- Construct a JSON string representing a new user:
+  ```json
+  {
+      "username": "alice",
+      "password": "password123"
+  }
+  ```
+- Mock `userService.create("alice", "password123")` to return a `User` instance with username `"alice"` and password `"password123"`.
+- Use `mockMvc.perform(...)` with `post("/api/users")`, `.contentType(MediaType.APPLICATION_JSON)`, and `.content(requestJson)`.
+- Assert that the response status is `isCreated()` (HTTP 201).
+- Assert using `jsonPath` that `$.username` is `"alice"` and `$.password` is `"password123"`.
+- (Optional) Add a test method `createTokenTest()` that posts a token JSON payload to `/api/tokens` and verifies the returned Token object with status `isCreated()`.
+
+#### Solution
+
+```java
+@Test
+void createUserTest() throws Exception {
+    User createdUser = User.builder().username("alice").password("password123").build();
+    when(userService.create("alice", "password123")).thenReturn(createdUser);
+
+    String requestJson = """
+            {
+                "username": "alice",
+                "password": "password123"
+            }
+            """;
+
+    mockMvc.perform(post("/api/users")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(requestJson))
+            .andExpect(status().isCreated())
+            .andExpect(jsonPath("$.username", is("alice")))
+            .andExpect(jsonPath("$.password", is("password123")));
+}
+
+@Test
+void createTokenTest() throws Exception {
+    User user = User.builder().username("alice").password("password123").build();
+    Token createdToken = Token.builder()
+            .token("spring")
+            .targetUrl("https://spring.io")
+            .protectToken("secret123")
+            .user(user)
+            .build();
+
+    when(tokenService.create(eq("spring"), eq("https://spring.io"), eq("secret123"), any(User.class)))
+            .thenReturn(createdToken);
+
+    String requestJson = """
+            {
+                "token": "spring",
+                "targetUrl": "https://spring.io",
+                "protectToken": "secret123",
+                "user": {
+                    "username": "alice",
+                    "password": "password123"
+                }
+            }
+            """;
+
+    mockMvc.perform(post("/api/tokens")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(requestJson))
+            .andExpect(status().isCreated())
+            .andExpect(jsonPath("$.token", is("spring")))
+            .andExpect(jsonPath("$.targetUrl", is("https://spring.io")))
+            .andExpect(jsonPath("$.user.username", is("alice")));
+}
+```
