@@ -32,9 +32,6 @@ public class UserService {
     }
 
     public User getUser(String userName) {
-        if (!users.containsKey(userName)) {
-            throw new UserNotFoundException();
-        }
         return users.get(userName);
     }
 }

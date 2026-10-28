@@ -81,8 +81,6 @@ second creation should fail with a UserExistsException.
 - create a method: `public void createNonUniqueUserTest()`.
 - Annotate it with `@Test`.
 - Let the UserService create a user with userName=user1 and password=password1.
-- Use `assertEquals()` to test that the user returned from the call indeed have a userName of user1 and a password of
-  password1.
 - Create another user with the same userName (user1).
 - Surround the second call in a try/catch (UserExistsException) with an empty catch block.
 - As the last statement in the try block user fail () to fail the test. You are not supposed to come to this place
