@@ -2,7 +2,7 @@
 
 ## Exercises
 
-We will be using the url-shortner project as our test-case
+We will be using the [url-shortner](../url-shortner) project as our test-case
 
 ### Exercise 1: Setup test suite
 
