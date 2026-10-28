@@ -93,7 +93,7 @@ public class BasicQueriesTest
 	@Test
 	public void findAllStudentsPaginatedAndSorted()
 	{
-		Pageable page = PageRequest.of(3, 1, Sort.sort(Student.class).by(Student::getName).ascending());
+		Pageable page = PageRequest.of(3, 1, Sort.by(Student::getName).ascending());
 		Page<Student> all = studentRepository.findAll(page);
 
 		assertEquals(4, all.getTotalElements());

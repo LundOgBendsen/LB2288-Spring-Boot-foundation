@@ -5,10 +5,8 @@ import dk.lundogbendsen.urlshortner.model.User;
 import dk.lundogbendsen.urlshortner.service.exceptions.*;
 import org.springframework.stereotype.Service;
 
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -50,8 +48,8 @@ public class TokenService {
             throw new IllegalTargetUrlException();
         }
         try {
-            new URL(targetUrl);
-        } catch (MalformedURLException e) {
+            new URI(targetUrl);
+        } catch (URISyntaxException e) {
             throw new InvalidTargetUrlException();
         }
 
