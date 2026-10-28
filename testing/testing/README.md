@@ -112,7 +112,7 @@ public void createNonUniqueUserTest() {
         userService.create("user1", "password1");
         assertNotNull(userService.getUser("user1"));
         userService.delete("user1");
-        assertThrows(UserNotFoundException.class, () -> userService.getUser("user1"));
+        assertThrows(NullPointerException.class, () -> userService.getUser("user1"));
     }
 ```
 
